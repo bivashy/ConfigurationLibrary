@@ -1,2 +1,3 @@
 # ConfigurationLibrary
-Configuration Library using annotations
+
+Configuration Library for Spigot using annotations.
