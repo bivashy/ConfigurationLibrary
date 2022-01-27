@@ -1,24 +1,26 @@
 package com.ubivashka.config.processors;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bukkit.configuration.ConfigurationSection;
-
 import com.ubivashka.config.converters.EnumConverter;
 import com.ubivashka.config.converters.IConverter;
 import com.ubivashka.config.processors.utils.ReflectionUtil;
 
+import net.md_5.bungee.config.Configuration;
+
 public abstract class ConfigurationHolder {
 	private static final List<IConverter<?, ?>> CONVERTERS = new ArrayList<>();
 
-	private ConfigurationSection configurationSection;
+	private Configuration configurationSection;
 
-	public void init(ConfigurationSection configurationSection) {
+	public void init(Configuration configurationSection) {
 		this.configurationSection = configurationSection;
 		setupFields();
 	}
@@ -40,11 +42,17 @@ public abstract class ConfigurationHolder {
 
 	private void setupFields(Class<? extends ConfigurationHolder> clazz) {
 		for (Field f : clazz.getDeclaredFields())
-			setupField(f, clazz);
+			try {
+				setupField(f, clazz);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException e) {
+				e.printStackTrace();
+			}
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private boolean setupField(Field field, Class<? extends ConfigurationHolder> clazz) {
+	private boolean setupField(Field field, Class<? extends ConfigurationHolder> clazz)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		boolean fieldAccesible = field.isAccessible();
 		field.setAccessible(true);
 
@@ -64,28 +72,44 @@ public abstract class ConfigurationHolder {
 		}
 
 		Object value = configurationSection.get(configPath);
-		Class<?> valueClass = configurationSection.isList(configPath) ? String.class
-				: ReflectionUtil.getRealType(value.getClass());
-		IConverter converter = getConverter(valueClass, ReflectionUtil.getRealType(field));
+
+		Class<?> configurationValueClass = configurationSection.getList(configPath)!=null ? String.class : value.getClass();
+
+		Class<?> fieldClass = ReflectionUtil.getRealType(field);
+		IConverter converter = getConverter(configurationValueClass, fieldClass);
+
 		if (converter != null) {
 			boolean isFieldCollecton = ReflectionUtil.isCollection(field.getType());
 			boolean isValueCollection = value instanceof Collection;
 			if (isFieldCollecton && isValueCollection)
 				value = converter.createFromDtos((Collection) value);
+
 			if (isFieldCollecton && !isValueCollection)
 				value = converter.createFromDtos(Arrays.asList(value));
+
 			if (!isFieldCollecton && !isValueCollection)
 				value = converter.convertFromDto(value);
 		}
 
-		try {
-			field.set(this, value);
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
+		if (converter == null && ConfigurationHolder.class.isAssignableFrom(fieldClass)
+				&& configurationSection.getSection(configPath)!=null) {
+			Constructor<?> constructor = ReflectionUtil.getContructor(fieldClass, Configuration.class)
+					.orElse(null);
+			if (constructor != null)
+				value = constructor.newInstance(configurationSection.getSection(configPath));
 		}
+
+		if (!value.getClass().isAssignableFrom(fieldClass)) {
+			field.setAccessible(fieldAccesible);
+			return false;
+		}
+
+		field.set(this, value);
+
 		field.setAccessible(fieldAccesible);
 		return true;
 	}
+
 
 	private String getConfigurationPath(ConfigField configurationFieldAnnotation, String defaultValue) {
 		String configPath = configurationFieldAnnotation.path();

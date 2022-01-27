@@ -1,6 +1,7 @@
 package com.ubivashka.config.processors.utils;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -11,14 +12,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class ReflectionUtil {
 	private ReflectionUtil() {
 	}
-	
+
+	public static <T> Optional<Constructor<?>> getContructor(Class<T> clazz, Class<?>... constructorArguments) {
+		return Arrays.stream(clazz.getConstructors())
+				.filter(constructor -> constructor.getParameterCount() == constructorArguments.length
+						&& Arrays.equals(constructorArguments, constructor.getParameterTypes()))
+				.findFirst();
+	}
+
 	public static Class<?> getRealType(Field field) {
-		if (isCollection(field.getType())) 
-			return getParameterizedTypes((ParameterizedType)field.getGenericType()).get(0);
+		if (isCollection(field.getType()))
+			return getParameterizedTypes((ParameterizedType) field.getGenericType()).get(0);
 		return field.getType();
 	}
 
@@ -27,7 +36,7 @@ public class ReflectionUtil {
 			Class<?> clazz = null;
 			if (valueClass.getGenericSuperclass() != null)
 				clazz = getSuperClassGenerics(valueClass)[0];
-			if(valueClass.getGenericInterfaces()!=null)
+			if (valueClass.getGenericInterfaces() != null)
 				clazz = getInterfaceGenerics(valueClass)[0];
 			return clazz;
 		}
@@ -42,10 +51,11 @@ public class ReflectionUtil {
 		Type[] types = ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments();
 		return Arrays.stream(types).map(type -> typeToClass(type)).toArray(Class<?>[]::new);
 	}
-	
+
 	public static Class<?>[] getInterfaceGenerics(Class<?> clazz) {
 		Type[] types = clazz.getGenericInterfaces();
-		return Arrays.stream(types).map(type -> getParameterizedTypes((ParameterizedType)type)).flatMap(Collection::stream).toArray(Class<?>[]::new);
+		return Arrays.stream(types).map(type -> getParameterizedTypes((ParameterizedType) type))
+				.flatMap(Collection::stream).toArray(Class<?>[]::new);
 	}
 
 	public static <T> Class<?>[] getGenericInterfaceParameters(Class<?> clazz, Class<T> interfaceType) {
@@ -76,20 +86,20 @@ public class ReflectionUtil {
 	}
 
 	public static Class<?> typeToClass(Type type) {
-	    if (type instanceof Class) {
-	       return (Class<?>) type;
-	    } else if (type instanceof GenericArrayType) {
-	       return Array.newInstance(typeToClass(((GenericArrayType)type).getGenericComponentType()), 0).getClass();
-	    } else if (type instanceof ParameterizedType) {
-	       return typeToClass(((ParameterizedType) type).getRawType());
-	    } else if (type instanceof TypeVariable) {
-	       Type[] bounds = ((TypeVariable<?>) type).getBounds();
-	       return bounds.length == 0 ? Object.class : typeToClass(bounds[0]);
-	    } else if (type instanceof WildcardType) {
-	       Type[] bounds = ((WildcardType) type).getUpperBounds();
-	       return bounds.length == 0 ? Object.class : typeToClass(bounds[0]);
-	    } else { 
-	       throw new UnsupportedOperationException("cannot handle type class: " + type.getClass());
-	    }
-	} 
+		if (type instanceof Class) {
+			return (Class<?>) type;
+		} else if (type instanceof GenericArrayType) {
+			return Array.newInstance(typeToClass(((GenericArrayType) type).getGenericComponentType()), 0).getClass();
+		} else if (type instanceof ParameterizedType) {
+			return typeToClass(((ParameterizedType) type).getRawType());
+		} else if (type instanceof TypeVariable) {
+			Type[] bounds = ((TypeVariable<?>) type).getBounds();
+			return bounds.length == 0 ? Object.class : typeToClass(bounds[0]);
+		} else if (type instanceof WildcardType) {
+			Type[] bounds = ((WildcardType) type).getUpperBounds();
+			return bounds.length == 0 ? Object.class : typeToClass(bounds[0]);
+		} else {
+			throw new UnsupportedOperationException("cannot handle type class: " + type.getClass());
+		}
+	}
 }

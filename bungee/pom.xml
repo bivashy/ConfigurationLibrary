@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ConfigurationLibrary-bungee</groupId>
+  <artifactId>ConfigurationLibrary-bungee</artifactId>
+  <version>1.0.1</version>
+  <properties>
+
+		<!-- Manifest -->
+		<manifest.contact>https://vk.me/bbaty45/</manifest.contact>
+		<manifest.developer>Ubivashka</manifest.developer>
+		<manifest.version>${project.version}</manifest.version>
+
+		<!-- Building -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>8</java.version>
+
+		<!-- Dependencies -->
+		<bungeecord-api.version>1.18-R0.1-SNAPSHOT</bungeecord-api.version>
+
+		<!-- Maven plugins -->
+		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+		<maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
+		<maven.source.plugin.version>3.2.0</maven.source.plugin.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>bungeecord-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- BungeeCord API -->
+		<dependency>
+			<groupId>net.md-5</groupId>
+			<artifactId>bungeecord-api</artifactId>
+			<version>${bungeecord-api.version}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- BungeeCord API -->
+		<dependency>
+			<groupId>net.md-5</groupId>
+			<artifactId>bungeecord-api</artifactId>
+			<version>${bungeecord-api.version}</version>
+			<type>javadoc</type>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.name}</finalName>
+		<plugins>
+			<!-- Maven compiler plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<compilerArgs>
+						<arg>-Xlint:deprecation</arg>
+						<arg>-Xlint:unchecked</arg>
+					</compilerArgs>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<!-- Maven source plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
