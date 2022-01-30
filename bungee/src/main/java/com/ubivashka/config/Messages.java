@@ -2,7 +2,6 @@ package com.ubivashka.config;
 
 import java.util.HashMap;
 
-
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.config.Configuration;
 
@@ -12,7 +11,7 @@ public class Messages {
 
 	public Messages(Configuration section) {
 		for (String key : section.getKeys()) {
-			if (section.getSection(key)!=null) {
+			if (section.getSection(key) != null) {
 				addSubMessages(key, section);
 				continue;
 			}

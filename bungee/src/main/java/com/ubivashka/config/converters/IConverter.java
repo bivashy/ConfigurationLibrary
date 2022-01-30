@@ -16,12 +16,12 @@ public interface IConverter<D, E> {
 	default List<D> createFromEntities(final Collection<E> entities) {
 		return entities.stream().map(this::convertFromEntity).collect(Collectors.toList());
 	}
-	
-	default Class<?> getDtoClass(){
+
+	default Class<?> getDtoClass() {
 		return null;
 	}
-	
-	default Class<?> getEntityClass(){
+
+	default Class<?> getEntityClass() {
 		return null;
 	}
 }

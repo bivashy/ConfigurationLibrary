@@ -14,8 +14,8 @@ public enum ImportantAction {
 	LOG {
 		@Override
 		public void doAction(String fieldPath, ConfigurationSection configurationSection) {
-			Bukkit.getServer().getLogger().log(Level.SEVERE,
-					"The important field: " + fieldPath + " not finded in section: " + configurationSection.getCurrentPath());
+			Bukkit.getServer().getLogger().log(Level.SEVERE, "The important field: " + fieldPath
+					+ " not finded in section: " + configurationSection.getCurrentPath());
 		}
 	};
 
