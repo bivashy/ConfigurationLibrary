@@ -73,7 +73,8 @@ public abstract class ConfigurationHolder {
 
 		Object value = configurationSection.get(configPath);
 
-		Class<?> configurationValueClass = configurationSection.getList(configPath)!=null ? String.class : value.getClass();
+		Class<?> configurationValueClass = configurationSection.getList(configPath) != null ? String.class
+				: value.getClass();
 
 		Class<?> fieldClass = ReflectionUtil.getRealType(field);
 		IConverter converter = getConverter(configurationValueClass, fieldClass);
@@ -92,9 +93,8 @@ public abstract class ConfigurationHolder {
 		}
 
 		if (converter == null && ConfigurationHolder.class.isAssignableFrom(fieldClass)
-				&& configurationSection.getSection(configPath)!=null) {
-			Constructor<?> constructor = ReflectionUtil.getContructor(fieldClass, Configuration.class)
-					.orElse(null);
+				&& configurationSection.getSection(configPath) != null) {
+			Constructor<?> constructor = ReflectionUtil.getContructor(fieldClass, Configuration.class).orElse(null);
 			if (constructor != null)
 				value = constructor.newInstance(configurationSection.getSection(configPath));
 		}
@@ -110,7 +110,6 @@ public abstract class ConfigurationHolder {
 		return true;
 	}
 
-
 	private String getConfigurationPath(ConfigField configurationFieldAnnotation, String defaultValue) {
 		String configPath = configurationFieldAnnotation.path();
 		if (configPath == null || configPath.isEmpty())
@@ -121,7 +120,7 @@ public abstract class ConfigurationHolder {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T, U> IConverter<T, U> getConverter(Class<T> dtoClass, Class<U> entityClass) {
-		if(entityClass.isEnum())
+		if (entityClass.isEnum())
 			return new EnumConverter(entityClass);
 		List<IConverter<?, ?>> findedConverters = CONVERTERS.stream().filter((converter) -> {
 
@@ -161,6 +160,6 @@ public abstract class ConfigurationHolder {
 	}
 
 	public static void registerDefaultConverters() {
-		
+
 	}
 }

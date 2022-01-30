@@ -2,7 +2,7 @@ package com.ubivashka.config.converters;
 
 import java.util.function.Function;
 
-public class Converter<D, E> implements IConverter<D, E>{
+public class Converter<D, E> implements IConverter<D, E> {
 
 	private final Function<D, E> fromDto;
 	private final Function<E, D> fromEntity;

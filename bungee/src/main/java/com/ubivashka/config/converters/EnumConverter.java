@@ -27,6 +27,4 @@ public class EnumConverter<T extends Enum<T>> implements IConverter<String, Enum
 		return enumClass;
 	}
 
-	
-	
 }
