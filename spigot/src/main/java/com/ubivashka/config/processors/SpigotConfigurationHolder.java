@@ -36,5 +36,9 @@ public abstract class SpigotConfigurationHolder extends
 			SpigotConfigurationSectionHolder configurationSectionHolder, String configurationPath, Field field) {
 		return new SpigotConfigurationContext(clazz, configurationSectionHolder, configurationPath, field);
 	}
+	
+	public SpigotConfigurationContextProcessorsDealership getContextProcessorsDealership() {
+		return PROCESSORS_DEALERSHIP;
+	}
 
 }

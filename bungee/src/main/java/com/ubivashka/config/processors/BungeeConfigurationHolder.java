@@ -37,4 +37,7 @@ public abstract class BungeeConfigurationHolder
 		return new BungeeConfigurationContext(clazz, configurationSectionHolder, configurationPath, field);
 	}
 
+	public static BungeeConfigurationContextProcessorsDealership getContextProcessorsDealership() {
+		return PROCESSORS_DEALERSHIP;
+	}
 }
