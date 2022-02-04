@@ -9,10 +9,10 @@ import com.ubivashka.config.processors.BungeeConfigurationHolder;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.config.Configuration;
 
-public class Messages extends BungeeConfigurationHolder{
-	@ConfigField()
+public class Messages extends BungeeConfigurationHolder {
+	@ConfigField
 	private Map<String, String> messages = new HashMap<>();
-	@ConfigField()
+	@ConfigField
 	private Map<String, Messages> subMessages = new HashMap<>();
 
 	public Messages(Configuration section) {

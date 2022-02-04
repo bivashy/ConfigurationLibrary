@@ -7,6 +7,8 @@ public class DefaultConverter extends BungeeConfigurationContextProcessor {
 
 	@Override
 	public void process(BungeeConfigurationContext context) {
+		if (!isValidContext(context))
+			return;
 		context.setCurrentObject(context.getConfigurationSectionHolder().get(context.getConfigurationPath()));
 	}
 
@@ -17,7 +19,7 @@ public class DefaultConverter extends BungeeConfigurationContextProcessor {
 
 	@Override
 	public byte priority() {
-		return 127;
+		return -128;
 	}
 
 }

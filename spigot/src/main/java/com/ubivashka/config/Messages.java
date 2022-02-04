@@ -11,9 +11,9 @@ import com.ubivashka.config.processors.SpigotConfigurationHolder;
 import net.md_5.bungee.api.ChatColor;
 
 public class Messages extends SpigotConfigurationHolder {
-	@ConfigField()
+	@ConfigField
 	private Map<String, String> messages = new HashMap<>();
-	@ConfigField()
+	@ConfigField
 	private Map<String, Messages> subMessages = new HashMap<>();
 
 	public Messages(ConfigurationSection section) {

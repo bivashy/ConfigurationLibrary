@@ -7,6 +7,8 @@ public class DefaultConverter extends SpigotConfigurationContextProcessor {
 
 	@Override
 	public void process(SpigotConfigurationContext context) {
+		if (!isValidContext(context))
+			return;
 		context.setCurrentObject(context.getConfigurationSectionHolder().get(context.getConfigurationPath()));
 	}
 
