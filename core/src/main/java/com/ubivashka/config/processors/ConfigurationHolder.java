@@ -7,7 +7,7 @@ import com.ubivashka.config.annotations.ConfigField;
 import com.ubivashka.config.holders.IConfigurationSectionHolder;
 import com.ubivashka.config.processors.context.IConfigurationContext;
 
-public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHolder<T>,C extends IConfigurationContext<T>> {
+public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHolder<T>, C extends IConfigurationContext<T>> {
 	private S configurationSectionHolder;
 
 	public void init(S configurationSectionHolder) {
@@ -17,20 +17,20 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 
 	protected abstract ConfigurationContextProcessorsDealership<T, C, ? extends IConfigurationContextProcessor<T, C>> getConfigurationFieldProcessorsDealership();
 
-	protected abstract C createDefaultConfigurationContext(Class<?> clazz,
-			S configurationSectionHolder, String configurationPath, Field field);
+	protected abstract C createDefaultConfigurationContext(Class<?> clazz, S configurationSectionHolder,
+			String configurationPath, Field field);
 
 	@SuppressWarnings("unchecked")
 	private void setupFields() {
 		Class<?> clazz = getClass();
 		while (clazz != null && ConfigurationHolder.class.isAssignableFrom(clazz)) {
 
-			setupFields((Class<? extends ConfigurationHolder<T, S,C>>) getClass());
+			setupFields((Class<? extends ConfigurationHolder<T, S, C>>) getClass());
 
 			Class<?> superClazz = clazz.getSuperclass();
 			while (superClazz != null && ConfigurationHolder.class.isAssignableFrom(superClazz)) {
 
-				setupFields((Class<? extends ConfigurationHolder<T, S,C>>) superClazz);
+				setupFields((Class<? extends ConfigurationHolder<T, S, C>>) superClazz);
 
 				superClazz = superClazz.getSuperclass();
 			}
@@ -39,7 +39,7 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 		}
 	}
 
-	private void setupFields(Class<? extends ConfigurationHolder<T, S,C>> clazz) {
+	private void setupFields(Class<? extends ConfigurationHolder<T, S, C>> clazz) {
 		for (Field f : clazz.getDeclaredFields())
 			try {
 				setupField(f, clazz);
@@ -49,7 +49,7 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 			}
 	}
 
-	private void setupField(Field field, Class<? extends ConfigurationHolder<T, S,C>> clazz)
+	private void setupField(Field field, Class<? extends ConfigurationHolder<T, S, C>> clazz)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (!field.isAnnotationPresent(ConfigField.class))
 			return;
@@ -59,13 +59,13 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 
 		ConfigField configurationFieldAnnotation = field.getAnnotation(ConfigField.class);
 		String configurationPath = getConfigurationPath(configurationFieldAnnotation, field.getName());
-		C configurationFieldContext = createDefaultConfigurationContext(clazz,
-				configurationSectionHolder, configurationPath, field);
+		C configurationFieldContext = createDefaultConfigurationContext(clazz, configurationSectionHolder,
+				configurationPath, field);
 		getConfigurationFieldProcessorsDealership().process(configurationFieldContext);
 
 		if (configurationFieldContext.getCurrentObject() == null)
 			return;
-		if(!field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass())) 
+		if (!field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass())) 
 			return;
 		
 		field.set(this, configurationFieldContext.getCurrentObject());

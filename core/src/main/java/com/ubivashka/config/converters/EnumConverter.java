@@ -1,31 +1,41 @@
 package com.ubivashka.config.converters;
 
-@Deprecated
-public class EnumConverter<T extends Enum<T>> implements IConverter<String, Enum<T>> {
-	private final Class<T> enumClass;
+import java.util.List;
 
-	public EnumConverter(Class<T> enumClass) {
-		this.enumClass = enumClass;
+import com.ubivashka.config.processors.context.IConfigurationContext;
+
+@SuppressWarnings("rawtypes")
+public class EnumConverter<T, C extends IConfigurationContext<T>>
+		extends ConfigurationListConverter<T, C, String, Enum> {
+	public EnumConverter() {
+		super(Enum.class);
 	}
 
 	@Override
-	public Enum<T> convertFromDto(String dto) {
-		return Enum.valueOf(enumClass, dto.toUpperCase());
+	protected Enum<?> valueToEntity(C context, String valueObject) {
+		return createEnum(context.getEntityClass(), valueObject);
 	}
 
 	@Override
-	public String convertFromEntity(Enum<T> entity) {
-		return entity.name();
+	protected String getConfigurationValue(C context) {
+		return context.getConfigurationSectionHolder().getString(context.getConfigurationPath());
 	}
 
 	@Override
-	public Class<String> getDtoClass() {
-		return String.class;
+	protected List<String> getConfigurationValues(C context) {
+		return context.getConfigurationSectionHolder().getList(context.getConfigurationPath());
+	}
+
+	private <E extends Enum<E>> Enum<E> createEnum(Class enumType, String string) {
+		@SuppressWarnings("unchecked")
+		Enum<E> newEnum = Enum.valueOf(enumType, string);
+		return newEnum;
 	}
 
 	@Override
-	public Class<T> getEntityClass() {
-		return enumClass;
+	public byte priority() {
+		return -128;
 	}
 
+	
 }

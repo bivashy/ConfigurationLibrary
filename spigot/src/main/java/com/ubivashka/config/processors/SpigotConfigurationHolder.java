@@ -5,9 +5,10 @@ import java.lang.reflect.Field;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.ubivashka.config.contexts.SpigotConfigurationContext;
-import com.ubivashka.config.converters.SpigotConfigurationSectionConverter;
-import com.ubivashka.config.converters.SpigotEnumConverter;
+import com.ubivashka.config.converters.ConfigurationHolderConverter;
 import com.ubivashka.config.converters.DefaultConverter;
+import com.ubivashka.config.converters.EnumConverter;
+import com.ubivashka.config.converters.SpigotConfigurationSectionConverter;
 import com.ubivashka.config.dealerships.SpigotConfigurationContextProcessorsDealership;
 import com.ubivashka.config.holders.SpigotConfigurationSectionHolder;
 
@@ -17,8 +18,11 @@ public abstract class SpigotConfigurationHolder extends
 	private static final SpigotConfigurationContextProcessorsDealership PROCESSORS_DEALERSHIP = new SpigotConfigurationContextProcessorsDealership();
 
 	static {
-		PROCESSORS_DEALERSHIP.put("default", new DefaultConverter());
-		PROCESSORS_DEALERSHIP.put("enum", new SpigotEnumConverter());
+		PROCESSORS_DEALERSHIP.put("default", new DefaultConverter<ConfigurationSection, SpigotConfigurationContext>());
+		PROCESSORS_DEALERSHIP.put("enum", new EnumConverter<ConfigurationSection, SpigotConfigurationContext>());
+		PROCESSORS_DEALERSHIP.put("holders",
+				new ConfigurationHolderConverter<ConfigurationSection, SpigotConfigurationContext,SpigotConfigurationHolder>(
+						SpigotConfigurationHolder.class));
 		PROCESSORS_DEALERSHIP.put("section_converter", new SpigotConfigurationSectionConverter());
 	}
 
@@ -36,7 +40,7 @@ public abstract class SpigotConfigurationHolder extends
 			SpigotConfigurationSectionHolder configurationSectionHolder, String configurationPath, Field field) {
 		return new SpigotConfigurationContext(clazz, configurationSectionHolder, configurationPath, field);
 	}
-	
+
 	public static SpigotConfigurationContextProcessorsDealership getContextProcessorsDealership() {
 		return PROCESSORS_DEALERSHIP;
 	}
