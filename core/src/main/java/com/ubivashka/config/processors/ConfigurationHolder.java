@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 import com.ubivashka.config.annotations.ConfigField;
+import com.ubivashka.config.annotations.ConverterType;
 import com.ubivashka.config.holders.IConfigurationSectionHolder;
 import com.ubivashka.config.processors.context.IConfigurationContext;
 
@@ -61,13 +62,26 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 		String configurationPath = getConfigurationPath(configurationFieldAnnotation, field.getName());
 		C configurationFieldContext = createDefaultConfigurationContext(clazz, configurationSectionHolder,
 				configurationPath, field);
-		getConfigurationFieldProcessorsDealership().process(configurationFieldContext);
+		IConfigurationContextProcessor<T, C> processor = getConfigurationFieldProcessorsDealership();
+		
+		if (field.isAnnotationPresent(ConverterType.class)) {
+			
+			ConverterType converterType = field.getAnnotation(ConverterType.class);
+			
+			if (getConfigurationFieldProcessorsDealership().containsKey(converterType.value()))
+				processor = getConfigurationFieldProcessorsDealership()
+						.getOrDefault(field.getAnnotation(ConverterType.class).value(), null);
+		
+		}
+		
+		processor.process(configurationFieldContext);
 
 		if (configurationFieldContext.getCurrentObject() == null)
 			return;
-		if (!field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass())) 
-			return;
 		
+		if (!field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass()))
+			return;
+
 		field.set(this, configurationFieldContext.getCurrentObject());
 		field.setAccessible(fieldAccesible);
 	}
