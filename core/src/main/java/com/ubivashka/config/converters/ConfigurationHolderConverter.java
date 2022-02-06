@@ -24,9 +24,8 @@ public class ConfigurationHolderConverter<T, C extends IConfigurationContext<T>,
 		Constructor<?> constructor = ReflectionUtil
 				.getContructor(fieldClass, configurationHolder.getOriginalConfigurationSection().getClass())
 				.orElse(null);
-		if (constructor == null) 
+		if (constructor == null)
 			return null;
-		
 
 		try {
 			Object entity = constructor.newInstance(configurationHolder.getOriginalConfigurationSection());

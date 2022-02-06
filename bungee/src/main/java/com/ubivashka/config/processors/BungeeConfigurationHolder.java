@@ -18,9 +18,11 @@ public abstract class BungeeConfigurationHolder
 	private static final BungeeConfigurationContextProcessorsDealership PROCESSORS_DEALERSHIP = new BungeeConfigurationContextProcessorsDealership();
 
 	static {
-		PROCESSORS_DEALERSHIP.put("default", new DefaultConverter<Configuration,BungeeConfigurationContext>());
-		PROCESSORS_DEALERSHIP.put("enum", new EnumConverter<Configuration,BungeeConfigurationContext>());
-		PROCESSORS_DEALERSHIP.put("holders", new ConfigurationHolderConverter<Configuration,BungeeConfigurationContext,BungeeConfigurationHolder>(BungeeConfigurationHolder.class));
+		PROCESSORS_DEALERSHIP.put("default", new DefaultConverter<Configuration, BungeeConfigurationContext>());
+		PROCESSORS_DEALERSHIP.put("enum", new EnumConverter<Configuration, BungeeConfigurationContext>());
+		PROCESSORS_DEALERSHIP.put("holders",
+				new ConfigurationHolderConverter<Configuration, BungeeConfigurationContext, BungeeConfigurationHolder>(
+						BungeeConfigurationHolder.class));
 		PROCESSORS_DEALERSHIP.put("section_converter", new BungeeConfigurationSectionConverter());
 	}
 

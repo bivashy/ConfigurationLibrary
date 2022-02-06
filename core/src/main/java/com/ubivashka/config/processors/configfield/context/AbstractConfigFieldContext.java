@@ -8,12 +8,13 @@ import com.ubivashka.config.processors.ConfigurationHolder;
 import com.ubivashka.config.processors.context.AbstractConfigurationContext;
 import com.ubivashka.config.processors.context.IConfigurationContext;
 
-public abstract class AbstractConfigFieldContext<T>
-		extends AbstractConfigurationContext<T> implements IConfigFieldContext<T> {
+public abstract class AbstractConfigFieldContext<T> extends AbstractConfigurationContext<T>
+		implements IConfigFieldContext<T> {
 
 	private final ConfigField configField;
 
-	public AbstractConfigFieldContext(Class<? extends ConfigurationHolder<T, ? extends IConfigurationSectionHolder<T>, ? extends IConfigurationContext<T>>> clazz,
+	public AbstractConfigFieldContext(
+			Class<? extends ConfigurationHolder<T, ? extends IConfigurationSectionHolder<T>, ? extends IConfigurationContext<T>>> clazz,
 			IConfigurationSectionHolder<T> configurationSectionHolder, String configurationPath, Field field) {
 		super(clazz, configurationSectionHolder, configurationPath, field);
 		this.configField = field.getAnnotation(ConfigField.class);

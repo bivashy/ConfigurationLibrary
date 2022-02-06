@@ -57,9 +57,9 @@ public class BungeeConfigurationSectionHolder implements IConfigurationSectionHo
 	public IConfigurationSectionHolder<Configuration> getConfigurationSection(String key) {
 		return new BungeeConfigurationSectionHolder(configuration.getSection(key));
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public <L> List<L> getList(String key){
+	public <L> List<L> getList(String key) {
 		return (List<L>) configuration.getList(key);
 	}
 
@@ -122,5 +122,4 @@ public class BungeeConfigurationSectionHolder implements IConfigurationSectionHo
 	public Set<String> getKeys() {
 		return new HashSet<>(configuration.getKeys());
 	}
-
 }

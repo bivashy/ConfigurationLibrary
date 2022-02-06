@@ -27,11 +27,12 @@ public abstract class AbstractConfigurationValue<T> implements IConfigurationVal
 					.getContructor(valueClass,
 							configurationValue.getAsConfigurationSection().getOriginalConfigurationSection().getClass())
 					.orElse(null);
-			if (constructor == null) 
+			if (constructor == null)
 				return null;
-			
+
 			try {
-				return constructor.newInstance(configurationValue.getAsConfigurationSection().getOriginalConfigurationSection());
+				return constructor
+						.newInstance(configurationValue.getAsConfigurationSection().getOriginalConfigurationSection());
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException e) {
 				e.printStackTrace();

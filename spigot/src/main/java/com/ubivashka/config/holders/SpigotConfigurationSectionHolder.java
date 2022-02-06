@@ -57,9 +57,9 @@ public class SpigotConfigurationSectionHolder implements IConfigurationSectionHo
 	public IConfigurationSectionHolder<ConfigurationSection> getConfigurationSection(String key) {
 		return new SpigotConfigurationSectionHolder(configuration.getConfigurationSection(key));
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public <L> List<L> getList(String key){
+	public <L> List<L> getList(String key) {
 		return (List<L>) configuration.getList(key);
 	}
 

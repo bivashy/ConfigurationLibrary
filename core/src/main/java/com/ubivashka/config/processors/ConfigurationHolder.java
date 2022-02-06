@@ -63,23 +63,24 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 		C configurationFieldContext = createDefaultConfigurationContext(clazz, configurationSectionHolder,
 				configurationPath, field);
 		IConfigurationContextProcessor<T, C> processor = getConfigurationFieldProcessorsDealership();
-		
+
 		if (field.isAnnotationPresent(ConverterType.class)) {
-			
+
 			ConverterType converterType = field.getAnnotation(ConverterType.class);
-			
+
 			if (getConfigurationFieldProcessorsDealership().containsKey(converterType.value()))
 				processor = getConfigurationFieldProcessorsDealership()
 						.getOrDefault(field.getAnnotation(ConverterType.class).value(), null);
-		
+
 		}
-		
+
 		processor.process(configurationFieldContext);
 
 		if (configurationFieldContext.getCurrentObject() == null)
 			return;
-		
-		if (!field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass()))
+
+		if (!field.getType().isPrimitive()
+				&& !field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass()))
 			return;
 
 		field.set(this, configurationFieldContext.getCurrentObject());

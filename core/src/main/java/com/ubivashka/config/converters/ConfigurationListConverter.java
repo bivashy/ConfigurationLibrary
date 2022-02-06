@@ -19,7 +19,7 @@ public abstract class ConfigurationListConverter<T, C extends IConfigurationCont
 	@Override
 	public void process(C context) {
 		V configurationValue = getConfigurationValue(context);
-		if (configurationValue == null) 
+		if (configurationValue == null)
 			return;
 		if (!ReflectionUtil.isCollection(context.getField().getType())) {
 			context.setCurrentObject(valueToEntity(context, configurationValue));

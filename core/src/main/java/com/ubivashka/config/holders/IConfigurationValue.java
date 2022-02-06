@@ -4,11 +4,11 @@ import java.util.List;
 
 public interface IConfigurationValue<T> {
 	String getKey();
-	
+
 	IConfigurationSectionHolder<T> getRootConfigurationSection();
-	
+
 	Object getConfigurationObject();
-	
+
 	IConfigurationSectionHolder<T> getAsConfigurationSection();
 
 	<L> List<L> getAsList();

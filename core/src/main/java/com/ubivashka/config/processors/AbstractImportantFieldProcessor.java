@@ -24,6 +24,6 @@ public abstract class AbstractImportantFieldProcessor<T>
 	public byte priority() {
 		return 127;
 	}
-	
+
 	public abstract void onImportantFieldError(IConfigurationContext<T> context);
 }

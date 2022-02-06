@@ -9,7 +9,7 @@ public interface IConfigurationSectionHolder<T> {
 	String getString(String key);
 
 	Boolean getBoolean(String key);
-	
+
 	Integer getInteger(String key);
 
 	Double getDouble(String key);
@@ -23,7 +23,7 @@ public interface IConfigurationSectionHolder<T> {
 	IConfigurationSectionHolder<T> getConfigurationSection(String key);
 
 	<L> List<L> getList(String key);
-	
+
 	boolean contains(String key);
 
 	boolean isConfigurationSection(String key);
@@ -33,7 +33,7 @@ public interface IConfigurationSectionHolder<T> {
 	boolean isString(String key);
 
 	boolean isBoolean(String key);
-	
+
 	boolean isInteger(String key);
 
 	boolean isDouble(String key);
