@@ -1,7 +1,6 @@
 package com.ubivashka.config.processors;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 import com.ubivashka.config.annotations.ConfigField;
 import com.ubivashka.config.annotations.ConverterType;
@@ -20,6 +19,9 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 
 	protected abstract C createDefaultConfigurationContext(Class<?> clazz, S configurationSectionHolder,
 			String configurationPath, Field field);
+
+	protected void handleError(Field field, C context, Exception e) {
+	}
 
 	@SuppressWarnings("unchecked")
 	private void setupFields() {
@@ -42,16 +44,10 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 
 	private void setupFields(Class<? extends ConfigurationHolder<T, S, C>> clazz) {
 		for (Field f : clazz.getDeclaredFields())
-			try {
-				setupField(f, clazz);
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException e) {
-				e.printStackTrace();
-			}
+			setupField(f, clazz);
 	}
 
-	private void setupField(Field field, Class<? extends ConfigurationHolder<T, S, C>> clazz)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private void setupField(Field field, Class<? extends ConfigurationHolder<T, S, C>> clazz) {
 		if (!field.isAnnotationPresent(ConfigField.class))
 			return;
 
@@ -79,11 +75,12 @@ public abstract class ConfigurationHolder<T, S extends IConfigurationSectionHold
 		if (configurationFieldContext.getCurrentObject() == null)
 			return;
 
-		if (!field.getType().isPrimitive()
-				&& !field.getType().isAssignableFrom(configurationFieldContext.getCurrentObject().getClass()))
-			return;
+		try {
+			field.set(this, configurationFieldContext.getCurrentObject());
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			handleError(field, configurationFieldContext, e);
+		}
 
-		field.set(this, configurationFieldContext.getCurrentObject());
 		field.setAccessible(fieldAccesible);
 	}
 
