@@ -11,7 +11,6 @@
 	<packaging>jar</packaging>
 	<properties>
 		<!-- Dependencies -->
-		<core.version>1.1.4</core.version>
 		<bungeecord-api.version>1.18-R0.1-SNAPSHOT</bungeecord-api.version>
 	</properties>
 
