@@ -12,18 +12,18 @@ import com.ubivashka.config.processors.utils.ReflectionUtil;
 
 public class ConfigurationHolderConverter<T, C extends IConfigurationContext<T>, E extends ConfigurationHolder<T, ? extends IConfigurationSectionHolder<T>, C>>
 		extends ConfigurationListConverter<T, C, IConfigurationSectionHolder<T>, E> {
+	private final Class<T> configurationClass;
 
-	public ConfigurationHolderConverter(Class<E> clazz) {
-		super(clazz);
+	public ConfigurationHolderConverter(Class<E> entityClass, Class<T> configurationClass) {
+		super(entityClass);
+		this.configurationClass = configurationClass;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected E valueToEntity(C context, IConfigurationSectionHolder<T> configurationHolder) {
 		Class<?> fieldClass = ReflectionUtil.getRealType(context.getField());
-		Constructor<?> constructor = ReflectionUtil
-				.getContructor(fieldClass, configurationHolder.getOriginalConfigurationSection().getClass())
-				.orElse(null);
+		Constructor<?> constructor = ReflectionUtil.getContructor(fieldClass, configurationClass).orElse(null);
 		if (constructor == null)
 			return null;
 

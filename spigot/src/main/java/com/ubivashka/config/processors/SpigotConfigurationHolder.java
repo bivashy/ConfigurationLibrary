@@ -22,7 +22,7 @@ public abstract class SpigotConfigurationHolder extends
 		PROCESSORS_DEALERSHIP.put("enum", new EnumConverter<ConfigurationSection, SpigotConfigurationContext>());
 		PROCESSORS_DEALERSHIP.put("holders",
 				new ConfigurationHolderConverter<ConfigurationSection, SpigotConfigurationContext, SpigotConfigurationHolder>(
-						SpigotConfigurationHolder.class));
+						SpigotConfigurationHolder.class, ConfigurationSection.class));
 		PROCESSORS_DEALERSHIP.put("section_converter", new SpigotConfigurationSectionConverter());
 	}
 

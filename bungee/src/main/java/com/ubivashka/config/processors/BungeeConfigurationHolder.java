@@ -22,7 +22,7 @@ public abstract class BungeeConfigurationHolder
 		PROCESSORS_DEALERSHIP.put("enum", new EnumConverter<Configuration, BungeeConfigurationContext>());
 		PROCESSORS_DEALERSHIP.put("holders",
 				new ConfigurationHolderConverter<Configuration, BungeeConfigurationContext, BungeeConfigurationHolder>(
-						BungeeConfigurationHolder.class));
+						BungeeConfigurationHolder.class,Configuration.class));
 		PROCESSORS_DEALERSHIP.put("section_converter", new BungeeConfigurationSectionConverter());
 	}
 
