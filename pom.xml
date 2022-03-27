@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ubivashka</groupId>
 	<artifactId>ConfigurationLibrary-parent</artifactId>
-	<version>1.1.5</version>
+	<version>1.1.6</version>
 	<packaging>pom</packaging>
 	<properties>
 
@@ -18,7 +18,7 @@
 		<java.version>8</java.version>
 
 		<!-- Dependencies -->
-		<core.version>1.1.5</core.version>
+		<core.version>1.1.6</core.version>
 
 		<!-- Maven plugins -->
 		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -27,10 +27,10 @@
 	</properties>
 
 	<modules>
-		<module>spigot</module>
+		<module>bukkit</module>
 		<module>core</module>
 		<module>bungee</module>
-		<module>ConfigurationLibrary-velocity</module>
+		<module>velocity</module>
 	</modules>
 	<build>
 		<finalName>${project.name}</finalName>
