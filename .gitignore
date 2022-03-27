@@ -1,9 +1,9 @@
 /*.project
-/spigot/.classpath
-/spigot/.project
-/spigot/.settings
-/spigot/bin
-/spigot/target
+/bukkit/.classpath
+/bukkit/.project
+/bukkit/.settings
+/bukkit/bin
+/bukkit/target
 /core/.settings
 /core/bin
 /core/target
