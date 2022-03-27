@@ -6,10 +6,10 @@ import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-public class SpigotConfigurationSectionHolder implements IConfigurationSectionHolder<ConfigurationSection> {
+public class BukkitConfigurationSectionHolder implements IConfigurationSectionHolder<ConfigurationSection> {
 	private final ConfigurationSection configuration;
 
-	public SpigotConfigurationSectionHolder(ConfigurationSection configuration) {
+	public BukkitConfigurationSectionHolder(ConfigurationSection configuration) {
 		this.configuration = configuration;
 	}
 
@@ -55,7 +55,7 @@ public class SpigotConfigurationSectionHolder implements IConfigurationSectionHo
 
 	@Override
 	public IConfigurationSectionHolder<ConfigurationSection> getConfigurationSection(String key) {
-		return new SpigotConfigurationSectionHolder(configuration.getConfigurationSection(key));
+		return new BukkitConfigurationSectionHolder(configuration.getConfigurationSection(key));
 	}
 
 	@SuppressWarnings("unchecked")

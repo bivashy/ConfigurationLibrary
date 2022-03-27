@@ -30,6 +30,7 @@
 		<module>spigot</module>
 		<module>core</module>
 		<module>bungee</module>
+		<module>ConfigurationLibrary-velocity</module>
 	</modules>
 	<build>
 		<finalName>${project.name}</finalName>

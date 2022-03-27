@@ -11,22 +11,22 @@ import java.util.stream.Collectors;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.ubivashka.config.configuration.SpigotConfigurationValue;
-import com.ubivashka.config.contexts.SpigotConfigurationContext;
+import com.ubivashka.config.configuration.BukkitConfigurationValue;
+import com.ubivashka.config.contexts.BukkitConfigurationContext;
 import com.ubivashka.config.holders.AbstractConfigurationValue;
 import com.ubivashka.config.holders.IConfigurationSectionHolder;
-import com.ubivashka.config.processors.SpigotConfigurationContextProcessor;
+import com.ubivashka.config.processors.BukkitConfigurationContextProcessor;
 import com.ubivashka.config.processors.utils.ReflectionUtil;
 
-public class SpigotConfigurationSectionConverter extends SpigotConfigurationContextProcessor {
+public class BukkitConfigurationSectionConverter extends BukkitConfigurationContextProcessor {
 
 	@Override
-	public void process(SpigotConfigurationContext context) {
+	public void process(BukkitConfigurationContext context) {
 		List<Class<?>> generics = ReflectionUtil
 				.getParameterizedTypes((ParameterizedType) context.getField().getGenericType());
 		Class<?> classType = generics.get(1);
 
-		List<SpigotConfigurationValue> rawValues = getValues(context.getConfigurationSectionHolder());
+		List<BukkitConfigurationValue> rawValues = getValues(context.getConfigurationSectionHolder());
 		Map<String, Object> configurationValues = rawValues.stream()
 				.map(value -> new AbstractMap.SimpleEntry<String, Object>(value.getKey(),
 						AbstractConfigurationValue.getRealType(value, classType)))
@@ -36,7 +36,7 @@ public class SpigotConfigurationSectionConverter extends SpigotConfigurationCont
 	}
 
 	@Override
-	public boolean isValidContext(SpigotConfigurationContext context) {
+	public boolean isValidContext(BukkitConfigurationContext context) {
 		Class<?> entityClass = context.getEntityClass();
 		if (!Map.class.isAssignableFrom(entityClass))
 			return false;
@@ -51,12 +51,12 @@ public class SpigotConfigurationSectionConverter extends SpigotConfigurationCont
 		return true;
 	}
 
-	public List<SpigotConfigurationValue> getValues(IConfigurationSectionHolder<ConfigurationSection> sectionHolder) {
-		List<SpigotConfigurationValue> values = new ArrayList<>();
+	public List<BukkitConfigurationValue> getValues(IConfigurationSectionHolder<ConfigurationSection> sectionHolder) {
+		List<BukkitConfigurationValue> values = new ArrayList<>();
 
 		Set<String> keys = sectionHolder.getKeys();
 		keys.forEach((key) -> {
-			SpigotConfigurationValue newValue = new SpigotConfigurationValue(sectionHolder, key);
+			BukkitConfigurationValue newValue = new BukkitConfigurationValue(sectionHolder, key);
 			values.add(newValue);
 		});
 		return values;

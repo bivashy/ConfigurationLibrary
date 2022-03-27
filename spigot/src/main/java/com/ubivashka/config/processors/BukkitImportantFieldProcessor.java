@@ -7,7 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import com.ubivashka.config.processors.context.IConfigurationContext;
 
-public class SpigotImportantFieldProcessor extends AbstractImportantFieldProcessor<ConfigurationSection> {
+public class BukkitImportantFieldProcessor extends AbstractImportantFieldProcessor<ConfigurationSection> {
 
 	@Override
 	public void onImportantFieldError(IConfigurationContext<ConfigurationSection> context) {

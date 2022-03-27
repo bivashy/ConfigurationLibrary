@@ -6,11 +6,11 @@ import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.ubivashka.config.annotations.ConfigField;
-import com.ubivashka.config.processors.SpigotConfigurationHolder;
+import com.ubivashka.config.processors.BukkitConfigurationHolder;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class Messages extends SpigotConfigurationHolder {
+public class Messages extends BukkitConfigurationHolder {
 	@ConfigField
 	private Map<String, String> messages = new HashMap<>();
 	@ConfigField

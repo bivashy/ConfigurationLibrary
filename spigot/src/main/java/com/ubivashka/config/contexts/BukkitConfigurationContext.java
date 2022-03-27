@@ -7,8 +7,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import com.ubivashka.config.holders.IConfigurationSectionHolder;
 import com.ubivashka.config.processors.context.AbstractConfigurationContext;
 
-public class SpigotConfigurationContext extends AbstractConfigurationContext<ConfigurationSection> {
-	public SpigotConfigurationContext(Class<?> clazz,
+public class BukkitConfigurationContext extends AbstractConfigurationContext<ConfigurationSection> {
+	public BukkitConfigurationContext(Class<?> clazz,
 			IConfigurationSectionHolder<ConfigurationSection> configurationSectionHolder, String configurationPath,
 			Field field) {
 		super(clazz, configurationSectionHolder, configurationPath, field);

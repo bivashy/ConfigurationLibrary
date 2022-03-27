@@ -9,9 +9,9 @@ import com.ubivashka.config.processors.ConfigurationHolder;
 import com.ubivashka.config.processors.configfield.context.AbstractConfigFieldContext;
 import com.ubivashka.config.processors.context.IConfigurationContext;
 
-public class SpigotConfigFieldContext extends AbstractConfigFieldContext<ConfigurationSection> {
+public class BukkitConfigFieldContext extends AbstractConfigFieldContext<ConfigurationSection> {
 
-	public SpigotConfigFieldContext(
+	public BukkitConfigFieldContext(
 			Class<? extends ConfigurationHolder<ConfigurationSection, ? extends IConfigurationSectionHolder<ConfigurationSection>, ? extends IConfigurationContext<ConfigurationSection>>> clazz,
 			IConfigurationSectionHolder<ConfigurationSection> configurationSectionHolder, String configurationPath,
 			Field field) {
