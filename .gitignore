@@ -15,5 +15,10 @@
 /bungee/target
 /bungee/.classpath
 /bungee/.project
+/velocity/.settings
+/velocity/bin
+/velocity/target
+/velocity/.classpath
+/velocity/.project
 /.settings
 /target
