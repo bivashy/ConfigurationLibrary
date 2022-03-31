@@ -1,11 +1,41 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.ubivashka</groupId>
-    <artifactId>ConfigurationLibrary-parent</artifactId>
-    <version>1.1.6</version>
-  </parent>
-  <artifactId>ConfigurationLibrary-velocity</artifactId>
-  <name>ConfigurationLibrary-Velocity</name>
-  <description>Configuration Library for Velocity</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ubivashka</groupId>
+		<artifactId>ConfigurationLibrary-main</artifactId>
+		<version>2.0.0</version>
+	</parent>
+	<artifactId>velocity</artifactId>
+
+	<properties>
+		<!-- Dependencies -->
+		<velocity-api.version>3.0.1</velocity-api.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>velocity</id>
+			<url>https://nexus.velocitypowered.com/repository/maven-public/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- Core -->
+		<dependency>
+			<groupId>com.ubivashka</groupId>
+			<artifactId>ConfigurationLibrary-core</artifactId>
+			<version>${core.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Velocity API -->
+		<dependency>
+			<groupId>com.velocitypowered</groupId>
+			<artifactId>velocity-api</artifactId>
+			<version>${velocity-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

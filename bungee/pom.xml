@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ubivashka</groupId>
-		<artifactId>ConfigurationLibrary-parent</artifactId>
-		<version>1.1.6</version>
+		<artifactId>ConfigurationLibrary-main</artifactId>
+		<version>2.0.0</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ConfigurationLibrary-bungee</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>bungee</artifactId>
+
 	<properties>
 		<!-- Dependencies -->
 		<bungeecord-api.version>1.18-R0.1-SNAPSHOT</bungeecord-api.version>
@@ -36,15 +36,6 @@
 			<artifactId>bungeecord-api</artifactId>
 			<version>${bungeecord-api.version}</version>
 			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- BungeeCord API -->
-		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-api</artifactId>
-			<version>${bungeecord-api.version}</version>
-			<type>javadoc</type>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
