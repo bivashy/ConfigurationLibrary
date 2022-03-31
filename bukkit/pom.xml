@@ -24,7 +24,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.ubivashka</groupId>
-			<artifactId>ConfigurationLibrary-core</artifactId>
+			<artifactId>core</artifactId>
 			<version>${core.version}</version>
 		</dependency>
 

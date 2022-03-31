@@ -25,7 +25,7 @@
 		<!-- Core -->
 		<dependency>
 			<groupId>com.ubivashka</groupId>
-			<artifactId>ConfigurationLibrary-core</artifactId>
+			<artifactId>core</artifactId>
 			<version>${core.version}</version>
 			<scope>compile</scope>
 		</dependency>
