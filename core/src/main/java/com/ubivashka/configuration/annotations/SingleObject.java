@@ -27,8 +27,6 @@ import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
  *     &#64;Override
  *     public Command resolveField(ConfigurationFieldResolverContext resolverContext){
  *     	   SingleObjectResolverContext singleObjectContext = resolverContext.as(SingleObjectResolverContext.class);
- *         if(singleObjectContext==null) // If you are resolving NOT collection
- *             return new Command(resolverContext.configuration().getString(resolverContext.path()));
  *         String configurationValue = singleObjectContext.getConfigurationValue();
  *         return new Command(configurationValue);
  *     }
