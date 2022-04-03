@@ -22,3 +22,8 @@
 /velocity/.project
 /.settings
 /target
+/example/.settings
+/example/target
+/example/.classpath
+/example/.gitignore
+/example/.project

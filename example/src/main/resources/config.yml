@@ -1,0 +1,42 @@
+primitive-test:
+  string: test
+  int: 1
+  double: 1.2
+list-test:
+  string-list:
+    - 't4weyhe4yh'
+    - 'tw3tg'
+    - 'hsaerhseh'
+    - hi
+    - '1'
+  double-list:
+    - 1.0
+    - 6.4
+    - 712.5
+    - 152.1
+    - -1261.3
+  integer-list:
+    - 1
+    - 6
+    - 712
+    - 152
+    - -1261
+enum-test:
+  first-enum: FIRST
+  enum-list:
+    - 'FIRST'
+    - SECOND
+    - THIRD
+section-test:
+  hi:
+    name: 'Artem'
+    subname: 'Melnichuk'
+    age: 69
+  gay:
+    name: 'Abdul'
+    subname: 'Temnov'
+    age: 0
+  many:
+    - 'firstId'
+    - 'secondId'
+  single: 'testId'

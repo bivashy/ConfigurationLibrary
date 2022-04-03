@@ -1,0 +1,3 @@
+name: ConfigurationLibrary-test
+main: com.ubivashka.configuration.test.TestMain
+version: 0.0.1
