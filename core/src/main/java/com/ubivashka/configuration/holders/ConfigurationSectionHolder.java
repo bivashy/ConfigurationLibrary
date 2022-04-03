@@ -10,7 +10,7 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 	/**
 	 * Returns object if configuration field serialized
 	 * 
-	 * @param key for 
+	 * @param key for
 	 * @return object in configuration that can be anyting.
 	 */
 	Object get(String key);
@@ -71,14 +71,14 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 	 * @return keys in this configuration section
 	 */
 	Set<String> getKeys();
-	
+
 	/**
 	 * Returns current path separator, default value is '.'
 	 * 
 	 * @return Path separator for keys
 	 */
 	char getPathSeparator();
-	
+
 	/**
 	 * Change path separator, for example if path separator equals to '-' <br>
 	 * and path is: foo-bar <br>
@@ -99,7 +99,8 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 	ConfigurationProcessor setPathSeparator(char pathSeparator);
 
 	/**
-	 * Returns original section holder. Useful for section null check 
+	 * Returns original section holder. Useful for section null check
+	 * 
 	 * @return original section holder
 	 */
 	Object getOriginalHolder();
