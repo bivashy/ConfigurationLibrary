@@ -27,6 +27,14 @@ public class ConfigurationCollectionFieldFactory<T> implements ConfigurationFiel
 		ConfigurationProcessor processor = context.processor();
 
 		ClassMap<ConfigurationFieldResolver<?>> fieldResolvers = new ClassMap<>(processor.getFieldResolvers());
+		ClassMap<ConfigurationFieldResolverFactory<?>> configurationFieldFactories = new ClassMap<>(
+				processor.getFieldResolverFactories());
+
+		ConfigurationFieldResolverFactory<?> factory = configurationFieldFactories.getOrDefault(context.getGeneric(0),
+				configurationFieldFactories.getAssignable(context.getGeneric(0), null));
+
+		if (factory != null && !factory.equals(this) && factory.shouldResolveCollection())
+			return (ConfigurationFieldResolver<T>) factory.createResolver(context);
 
 		ConfigurationFieldResolver<T> findedResolver = (ConfigurationFieldResolver<T>) fieldResolvers
 				.getOrDefault(context.getGeneric(0), null);
