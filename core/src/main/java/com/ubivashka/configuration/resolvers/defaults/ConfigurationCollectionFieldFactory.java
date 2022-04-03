@@ -16,34 +16,31 @@ import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolvers.ConfigurationFieldResolverFactory;
 import com.ubivashka.configuration.util.ClassMap;
 
-public class ConfigurationCollectionFieldFactory<T> implements ConfigurationFieldResolverFactory<T> {
+public class ConfigurationCollectionFieldFactory implements ConfigurationFieldResolverFactory {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ConfigurationFieldResolver<T> createResolver(ConfigurationFieldContext context) {
+	public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldContext context) {
 		if (!context.isValueCollection())
-			return (ConfigurationFieldResolver<T>) DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY
-					.createResolver(context);
+			return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
 		ConfigurationProcessor processor = context.processor();
 
 		ClassMap<ConfigurationFieldResolver<?>> fieldResolvers = new ClassMap<>(processor.getFieldResolvers());
-		ClassMap<ConfigurationFieldResolverFactory<?>> configurationFieldFactories = new ClassMap<>(
+		ClassMap<ConfigurationFieldResolverFactory> configurationFieldFactories = new ClassMap<>(
 				processor.getFieldResolverFactories());
 
-		ConfigurationFieldResolverFactory<?> factory = configurationFieldFactories.getOrDefault(context.getGeneric(0),
+		ConfigurationFieldResolverFactory factory = configurationFieldFactories.getOrDefault(context.getGeneric(0),
 				configurationFieldFactories.getAssignable(context.getGeneric(0), null));
 
 		if (factory != null && !factory.equals(this) && factory.shouldResolveCollection())
-			return (ConfigurationFieldResolver<T>) factory.createResolver(context);
+			return factory.createResolver(context);
 
-		ConfigurationFieldResolver<T> findedResolver = (ConfigurationFieldResolver<T>) fieldResolvers
-				.getOrDefault(context.getGeneric(0), null);
+		ConfigurationFieldResolver<?> findedResolver = fieldResolvers.getOrDefault(context.getGeneric(0), null);
 
 		if (findedResolver != null && findedResolver.shouldResolveCollection())
 			if (context.hasAnnotation(SectionObject.class))
-				return (ConfigurationFieldResolver<T>) new ConfigurationFieldResolver<List<T>>() {
+				return new ConfigurationFieldResolver<List<?>>() {
 					@Override
-					public List<T> resolveField(ConfigurationFieldResolverContext resolverContext) {
+					public List<?> resolveField(ConfigurationFieldResolverContext resolverContext) {
 						ConfigurationSectionHolder sectionHolder = resolverContext.configuration()
 								.getSection(resolverContext.path());
 
@@ -66,9 +63,9 @@ public class ConfigurationCollectionFieldFactory<T> implements ConfigurationFiel
 					}
 				};
 		if (context.hasAnnotation(SingleObject.class))
-			return (ConfigurationFieldResolver<T>) new ConfigurationFieldResolver<List<T>>() {
+			return new ConfigurationFieldResolver<List<?>>() {
 				@Override
-				public List<T> resolveField(ConfigurationFieldResolverContext resolverContext) {
+				public List<?> resolveField(ConfigurationFieldResolverContext resolverContext) {
 					return resolverContext.configuration().getList(resolverContext.path()).stream().map(object -> {
 						SingleObjectResolverContext context = new SingleObjectResolverContext(resolverContext, object);
 						return findedResolver.resolveField(context);
@@ -79,8 +76,7 @@ public class ConfigurationCollectionFieldFactory<T> implements ConfigurationFiel
 		if (findedResolver != null)
 			return findedResolver;
 
-		return (ConfigurationFieldResolver<T>) DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY
-				.createResolver(context);
+		return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
 	}
 
 }

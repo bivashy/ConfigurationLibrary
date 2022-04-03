@@ -53,7 +53,7 @@ public interface ConfigurationProcessor extends CastableInterface<ConfigurationP
 	 * @return this {@link ConfigurationProcessor}
 	 */
 	<T> ConfigurationProcessor registerFieldResolverFactory(Class<T> type,
-			ConfigurationFieldResolverFactory<? extends T> fieldResolverFactory);
+			ConfigurationFieldResolverFactory fieldResolverFactory);
 
 	/**
 	 * Register converter that will be used in list
@@ -79,7 +79,7 @@ public interface ConfigurationProcessor extends CastableInterface<ConfigurationP
 	 * 
 	 * @return unmodifiable field resolver factories map
 	 */
-	Map<Class<?>, ConfigurationFieldResolverFactory<?>> getFieldResolverFactories();
+	Map<Class<?>, ConfigurationFieldResolverFactory> getFieldResolverFactories();
 
 	/**
 	 * Returns converters, usually used for converting list values. For example

@@ -21,16 +21,18 @@ import com.ubivashka.configuration.processors.exceptions.ImportantFieldNotInitia
 import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolvers.ConfigurationFieldResolverFactory;
 import com.ubivashka.configuration.resolvers.defaults.ConfigurationCollectionFieldFactory;
+import com.ubivashka.configuration.resolvers.defaults.ConfigurationEnumFieldFactory;
 import com.ubivashka.configuration.resolvers.defaults.DefaultConfigurationFieldFactory;
 import com.ubivashka.configuration.util.ClassMap;
 import com.ubivashka.configuration.util.PrimitiveWrapper;
 import com.ubivashka.configuration.wrappers.ConfigurationHolderWrapper;
 
 public class DefaultConfigurationProcessor implements ConfigurationProcessor {
-	public static final ConfigurationFieldResolverFactory<?> FIELD_RESOLVER_FACTORY = new DefaultConfigurationFieldFactory<>();
-	public static final ConfigurationFieldResolverFactory<List<?>> COLLECTION_FIELD_RESOLVER_FACTORY = new ConfigurationCollectionFieldFactory<>();
+	public static final ConfigurationFieldResolverFactory FIELD_RESOLVER_FACTORY = new DefaultConfigurationFieldFactory();
+	public static final ConfigurationFieldResolverFactory ENUM_FIELD_RESOLVER_FACTORY = new ConfigurationEnumFieldFactory();
+	public static final ConfigurationFieldResolverFactory COLLECTION_FIELD_RESOLVER_FACTORY = new ConfigurationCollectionFieldFactory();
 
-	private final ClassMap<ConfigurationFieldResolverFactory<?>> configurationFieldFactories = new ClassMap<>();
+	private final ClassMap<ConfigurationFieldResolverFactory> configurationFieldFactories = new ClassMap<>();
 	private final ClassMap<ConfigurationFieldResolver<?>> configurationFieldResolvers = new ClassMap<>();
 	private final ClassMap<ConfigurationHolderWrapper<?>> configurationHolderWrappers = new ClassMap<>();
 	private final ClassMap<Converter<?>> converters = new ClassMap<>();
@@ -50,6 +52,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 			throw new IllegalArgumentException(new CannotParseException());
 		});
 
+		registerFieldResolverFactory(Enum.class, ENUM_FIELD_RESOLVER_FACTORY);
 		registerFieldResolverFactory(List.class, COLLECTION_FIELD_RESOLVER_FACTORY);
 		registerFieldResolverFactory(Collection.class, COLLECTION_FIELD_RESOLVER_FACTORY);
 	}
@@ -75,6 +78,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 
 	@Override
 	public <T> ConfigurationProcessor resolve(T sectionHolder, Object... fieldHolders) {
+		@SuppressWarnings("unchecked")
 		ConfigurationHolderWrapper<T> wrapper = (ConfigurationHolderWrapper<T>) configurationHolderWrappers
 				.getAssignable(PrimitiveWrapper.unwrapClass(sectionHolder.getClass()));
 		if (wrapper == null)
@@ -100,7 +104,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 
 	@Override
 	public <T> ConfigurationProcessor registerFieldResolverFactory(Class<T> type,
-			ConfigurationFieldResolverFactory<? extends T> fieldResolverFactory) {
+			ConfigurationFieldResolverFactory fieldResolverFactory) {
 		configurationFieldFactories.putWrapped(type, fieldResolverFactory);
 		return this;
 	}
@@ -117,7 +121,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 	}
 
 	@Override
-	public Map<Class<?>, ConfigurationFieldResolverFactory<?>> getFieldResolverFactories() {
+	public Map<Class<?>, ConfigurationFieldResolverFactory> getFieldResolverFactories() {
 		return Collections.unmodifiableMap(configurationFieldFactories);
 	}
 
@@ -137,7 +141,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 
 	private void resolveField(ConfigurationFieldContext configurationFieldContext) {
 		Class<?> key = configurationFieldContext.valueType();
-		ConfigurationFieldResolverFactory<?> factory = configurationFieldFactories.getOrDefault(key,
+		ConfigurationFieldResolverFactory factory = configurationFieldFactories.getOrDefault(key,
 				configurationFieldFactories.getAssignable(key, FIELD_RESOLVER_FACTORY));
 
 		try {

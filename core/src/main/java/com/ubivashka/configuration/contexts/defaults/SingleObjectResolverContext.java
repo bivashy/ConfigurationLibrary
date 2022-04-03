@@ -10,6 +10,7 @@ public class SingleObjectResolverContext extends ConfigurationFieldResolverConte
 		this.configurationValue = configurationValue;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T getConfigurationValue() {
 		return (T) configurationValue;
 	}
