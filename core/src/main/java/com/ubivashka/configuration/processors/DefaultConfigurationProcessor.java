@@ -14,6 +14,7 @@ import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.configuration.annotations.ConfigField;
 import com.ubivashka.configuration.annotations.ImportantField;
 import com.ubivashka.configuration.contexts.ConfigurationFieldContext;
+import com.ubivashka.configuration.contexts.defaults.SingleObjectResolverContext;
 import com.ubivashka.configuration.converters.Converter;
 import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
 import com.ubivashka.configuration.processors.exceptions.CannotParseException;
@@ -51,6 +52,9 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 				return Pattern.compile((String) object);
 			throw new IllegalArgumentException(new CannotParseException());
 		});
+
+		registerFieldResolver(Pattern.class, (context) -> Pattern
+				.compile(context.as(SingleObjectResolverContext.class).getConfigurationValue().toString()));
 
 		registerFieldResolverFactory(Enum.class, ENUM_FIELD_RESOLVER_FACTORY);
 		registerFieldResolverFactory(List.class, COLLECTION_FIELD_RESOLVER_FACTORY);
@@ -150,8 +154,11 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 			Field field = configurationFieldContext.field();
 			Object resolvedObject = resolver.resolveField(configurationFieldContext.asResolverContext());
 
-			if (resolvedObject == null && field.isAnnotationPresent(ImportantField.class))
-				throw new ImportantFieldNotInitializedException(configurationFieldContext);
+			if (resolvedObject == null) {
+				if (field.isAnnotationPresent(ImportantField.class))
+					throw new ImportantFieldNotInitializedException(configurationFieldContext);
+				return;
+			}
 			field.set(configurationFieldContext.fieldHolder(), resolvedObject);
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
