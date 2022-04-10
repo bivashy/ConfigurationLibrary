@@ -62,7 +62,7 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
 						}).collect(Collectors.toList());
 					}
 				};
-		if (context.hasAnnotation(SingleObject.class))
+		if (context.hasAnnotation(SingleObject.class) && findedResolver.shouldResolveCollection())
 			return new ConfigurationFieldResolver<List<?>>() {
 				@Override
 				public List<?> resolveField(ConfigurationFieldResolverContext resolverContext) {
