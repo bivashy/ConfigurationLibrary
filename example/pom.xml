@@ -25,6 +25,14 @@
 		<!-- Bukkit Configuration Library -->
 		<dependency>
 			<groupId>com.ubivashka</groupId>
+			<artifactId>core</artifactId>
+			<version>${core.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	
+		<!-- Bukkit Configuration Library -->
+		<dependency>
+			<groupId>com.ubivashka</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>${core.version}</version>
 			<scope>compile</scope>
