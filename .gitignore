@@ -20,6 +20,11 @@
 /velocity/target
 /velocity/.classpath
 /velocity/.project
+/configurate/.settings
+/configurate/target
+/configurate/.classpath
+/configurate/.gitignore
+/configurate/.project
 /.settings
 /target
 /example/.settings
