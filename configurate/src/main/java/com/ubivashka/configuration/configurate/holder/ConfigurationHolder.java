@@ -1,18 +1,14 @@
 package com.ubivashka.configuration.configurate.holder;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.Scalars;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
-
-import io.leangen.geantyref.TypeToken;
 
 public class ConfigurationHolder implements ConfigurationSectionHolder {
 	private final ConfigurationNode configurationNode;
@@ -51,14 +47,11 @@ public class ConfigurationHolder implements ConfigurationSectionHolder {
 		return new ConfigurationHolder(configurationNode.node(key));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <L> List<L> getList(String key) {
-		try {
-			return (List<L>) configurationNode.node(key).getList(TypeToken.get(Object.class));
-		} catch (SerializationException e) {
-			e.printStackTrace();
-			return Collections.emptyList();
-		}
+		return (List<L>) configurationNode.node(key).childrenList().stream().map(ConfigurationNode::raw)
+				.collect(Collectors.toList());
 	}
 
 	@Override
