@@ -61,7 +61,7 @@ public class ConfigurationHolder implements ConfigurationSectionHolder {
 
 	@Override
 	public boolean isConfigurationSection(String key) {
-		return !configurationNode.childrenMap().isEmpty();
+		return !configurationNode.node(key).childrenMap().isEmpty();
 	}
 
 	@Override
