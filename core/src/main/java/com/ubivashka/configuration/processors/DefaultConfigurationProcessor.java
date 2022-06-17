@@ -156,9 +156,8 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
                 return;
             }
             field.set(configurationFieldContext.fieldHolder(), resolvedObject);
-        } catch(IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
         } catch(Throwable e) {
+            System.err.println("Error occurred on path " + configurationFieldContext.path() + " with field type " + configurationFieldContext.fieldHolder().getClass().getSimpleName());
             e.printStackTrace();
         }
     }
