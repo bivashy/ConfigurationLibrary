@@ -17,7 +17,7 @@ public class ConfigurationHolderResolverFactory implements ConfigurationFieldRes
         Class<?> fieldClass = factoryContext.valueType();
         try {
             for (Constructor<?> constructor : fieldClass.getDeclaredConstructors()) {
-                if (constructor.getParameterCount() != 2)
+                if (constructor.getParameterCount() != 1)
                     continue;
                 if (ConfigurationSectionHolder.class.isAssignableFrom(constructor.getParameterTypes()[0]))
                     return (context) -> {
