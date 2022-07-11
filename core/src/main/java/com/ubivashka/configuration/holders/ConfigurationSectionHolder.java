@@ -7,7 +7,91 @@ import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.function.CastableInterface;
 
 public interface ConfigurationSectionHolder extends CastableInterface<ConfigurationSectionHolder> {
-	/**
+	static ConfigurationSectionHolder empty() {
+		return new ConfigurationSectionHolder() {
+			@Override
+			public Object get(String key) {
+				return null;
+			}
+
+			@Override
+			public String getString(String key) {
+				return null;
+			}
+
+			@Override
+			public Boolean getBoolean(String key) {
+				return null;
+			}
+
+			@Override
+			public Integer getInteger(String key) {
+				return null;
+			}
+
+			@Override
+			public Double getDouble(String key) {
+				return null;
+			}
+
+			@Override
+			public ConfigurationSectionHolder getSection(String key) {
+				return null;
+			}
+
+			@Override
+			public <L> List<L> getList(String key) {
+				return null;
+			}
+
+			@Override
+			public boolean contains(String key) {
+				return false;
+			}
+
+			@Override
+			public boolean isConfigurationSection(String key) {
+				return false;
+			}
+
+			@Override
+			public boolean isCollection(String key) {
+				return false;
+			}
+
+			@Override
+			public boolean isString(String key) {
+				return false;
+			}
+
+			@Override
+			public boolean isBoolean(String key) {
+				return false;
+			}
+
+			@Override
+			public boolean isInteger(String key) {
+				return false;
+			}
+
+			@Override
+			public boolean isDouble(String key) {
+				return false;
+			}
+
+			@Override
+			public Set<String> getKeys() {
+				return null;
+			}
+
+			@Override
+			public Object getOriginalHolder() {
+				return null;
+			}
+		};
+	}
+
+    /**
 	 * Returns object if configuration field serialized
 	 * 
 	 * @param key for

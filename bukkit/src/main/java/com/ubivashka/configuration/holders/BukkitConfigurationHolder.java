@@ -39,10 +39,13 @@ public class BukkitConfigurationHolder implements ConfigurationSectionHolder {
 		return section.getDouble(key);
 	}
 
-	@Override
-	public ConfigurationSectionHolder getSection(String key) {
-		return new BukkitConfigurationHolder(section.getConfigurationSection(key));
-	}
+    @Override
+    public ConfigurationSectionHolder getSection(String key) {
+        ConfigurationSection configurationSection = section.getConfigurationSection(key);
+        if (configurationSection != null)
+            return new BukkitConfigurationHolder(configurationSection);
+        return ConfigurationSectionHolder.empty();
+    }
 
 	@SuppressWarnings("unchecked")
 	@Override
