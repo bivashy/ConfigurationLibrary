@@ -1,5 +1,6 @@
 package com.ubivashka.configuration.holders;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 
 			@Override
 			public <L> List<L> getList(String key) {
-				return null;
+				return Collections.emptyList();
 			}
 
 			@Override
@@ -80,7 +81,7 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 
 			@Override
 			public Set<String> getKeys() {
-				return null;
+				return Collections.emptySet();
 			}
 
 			@Override
