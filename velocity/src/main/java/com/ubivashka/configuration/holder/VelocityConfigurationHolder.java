@@ -2,11 +2,11 @@ package com.ubivashka.configuration.holder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.reflect.TypeToken;
-import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
 
 import ninja.leaping.configurate.ConfigurationNode;
@@ -17,6 +17,7 @@ public class VelocityConfigurationHolder implements ConfigurationSectionHolder {
 	private final ConfigurationNode configurationNode;
 
 	public VelocityConfigurationHolder(ConfigurationNode configurationNode) {
+		Objects.requireNonNull(configurationNode);
 		this.configurationNode = configurationNode;
 	}
 
@@ -96,18 +97,8 @@ public class VelocityConfigurationHolder implements ConfigurationSectionHolder {
 
 	@Override
 	public Set<String> getKeys() {
-		return configurationNode.getChildrenMap().keySet().stream().map(object -> String.valueOf(object))
+		return configurationNode.getChildrenMap().keySet().stream().map(String::valueOf)
 				.collect(Collectors.toSet());
-	}
-
-	@Override
-	public char getPathSeparator() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public ConfigurationProcessor setPathSeparator(char pathSeparator) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

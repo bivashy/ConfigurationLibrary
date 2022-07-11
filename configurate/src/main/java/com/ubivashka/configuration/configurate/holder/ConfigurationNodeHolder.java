@@ -1,18 +1,20 @@
 package com.ubivashka.configuration.configurate.holder;
 
-import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.Scalars;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
 
 public class ConfigurationNodeHolder implements ConfigurationSectionHolder {
 	private final ConfigurationNode configurationNode;
 
 	public ConfigurationNodeHolder(ConfigurationNode configurationNode) {
+		Objects.requireNonNull(configurationNode);
 		this.configurationNode = configurationNode;
 	}
 
@@ -92,16 +94,6 @@ public class ConfigurationNodeHolder implements ConfigurationSectionHolder {
 	public Set<String> getKeys() {
 		return configurationNode.childrenMap().keySet().stream().map(String::valueOf)
 				.collect(Collectors.toSet());
-	}
-
-	@Override
-	public char getPathSeparator() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public ConfigurationProcessor setPathSeparator(char pathSeparator) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

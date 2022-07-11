@@ -3,7 +3,6 @@ package com.ubivashka.configuration.holders;
 import java.util.List;
 import java.util.Set;
 
-import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.function.CastableInterface;
 
 public interface ConfigurationSectionHolder extends CastableInterface<ConfigurationSectionHolder> {
@@ -93,7 +92,7 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 
     /**
 	 * Returns object if configuration field serialized
-	 * 
+	 *
 	 * @param key for
 	 * @return object in configuration that can be anyting.
 	 */
@@ -151,40 +150,14 @@ public interface ConfigurationSectionHolder extends CastableInterface<Configurat
 
 	/**
 	 * Returns keys that exists in this configuration section holder.
-	 * 
+	 *
 	 * @return keys in this configuration section
 	 */
 	Set<String> getKeys();
 
 	/**
-	 * Returns current path separator, default value is '.'
-	 * 
-	 * @return Path separator for keys
-	 */
-	char getPathSeparator();
-
-	/**
-	 * Change path separator, for example if path separator equals to '-' <br>
-	 * and path is: foo-bar <br>
-	 * it will be something like this: <br>
-	 * 
-	 * <pre>
-	 * <pre>
-	 * foo: 
-	 *   bar: 'test'
-	 * </pre>
-	 * </pre>
-	 * 
-	 * And configuration value will be 'test'
-	 * 
-	 * @param pathSeparator that will be used for separating path
-	 * @return this {@link ConfigurationProcessor}
-	 */
-	ConfigurationProcessor setPathSeparator(char pathSeparator);
-
-	/**
 	 * Returns original section holder. Useful for section null check
-	 * 
+	 *
 	 * @return original section holder
 	 */
 	Object getOriginalHolder();
