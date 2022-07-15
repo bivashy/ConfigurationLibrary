@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.annotations;
+package com.ubivashka.configuration.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 
 /**
  * <pre>

@@ -1,10 +1,10 @@
-package com.ubivashka.configuration.contexts;
+package com.ubivashka.configuration.context;
 
 import java.lang.annotation.Annotation;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.annotations.ConfigField;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.annotation.ConfigField;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.function.CastableInterface;
 
 public interface ConfigurationFieldResolverContext extends CastableInterface<ConfigurationFieldResolverContext> {

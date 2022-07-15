@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+
 import net.md_5.bungee.config.Configuration;
 
 public class BungeeConfigurationHolder implements ConfigurationSectionHolder {

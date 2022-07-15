@@ -5,9 +5,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.configuration.contexts.defaults.SingleObjectResolverContext;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.holders.BukkitConfigurationHolder;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
-import com.ubivashka.configuration.processors.DefaultConfigurationProcessor;
+import com.ubivashka.configuration.processor.DefaultConfigurationProcessor;
 import com.ubivashka.configuration.test.PersonTestConfiguration.Person;
 import com.ubivashka.configuration.test.PersonTestConfiguration.PersonId;
 

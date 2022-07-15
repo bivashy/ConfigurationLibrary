@@ -1,6 +1,6 @@
 package com.ubivashka.configuration.contexts.defaults;
 
-import com.ubivashka.configuration.contexts.ConfigurationFieldResolverContext;
+import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
 
 public class SingleObjectResolverContext extends ConfigurationFieldResolverContextWrapper {
 	private final Object configurationValue;

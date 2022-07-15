@@ -1,6 +1,6 @@
-package com.ubivashka.configuration.resolvers;
+package com.ubivashka.configuration.resolver.field;
 
-import com.ubivashka.configuration.contexts.ConfigurationFieldContext;
+import com.ubivashka.configuration.context.ConfigurationFieldContext;
 
 public interface ConfigurationFieldResolverFactory {
 	ConfigurationFieldResolver<?> createResolver(ConfigurationFieldContext context);

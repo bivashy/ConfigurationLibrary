@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.ubivashka.configuration.annotations.ConfigField;
+import com.ubivashka.configuration.annotation.ConfigField;
 
 public class EnumTestConfiguration {
 	@ConfigField("first-enum")

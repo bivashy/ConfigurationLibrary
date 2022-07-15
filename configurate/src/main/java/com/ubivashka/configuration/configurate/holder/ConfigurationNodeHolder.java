@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.Scalars;
 
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
 public class ConfigurationNodeHolder implements ConfigurationSectionHolder {
 	private final ConfigurationNode configurationNode;

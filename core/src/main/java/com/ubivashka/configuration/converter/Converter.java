@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.converters;
+package com.ubivashka.configuration.converter;
 
 public interface Converter<T> {
 	T convert(Object value);

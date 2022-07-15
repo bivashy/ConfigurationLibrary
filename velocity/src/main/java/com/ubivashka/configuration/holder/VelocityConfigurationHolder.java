@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.reflect.TypeToken;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.Types;

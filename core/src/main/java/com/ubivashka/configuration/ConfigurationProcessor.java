@@ -2,11 +2,11 @@ package com.ubivashka.configuration;
 
 import java.util.Map;
 
-import com.ubivashka.configuration.converters.Converter;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolverFactory;
-import com.ubivashka.configuration.wrappers.ConfigurationHolderWrapper;
+import com.ubivashka.configuration.converter.Converter;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
+import com.ubivashka.configuration.wrapper.ConfigurationHolderWrapper;
 import com.ubivashka.function.CastableInterface;
 
 public interface ConfigurationProcessor extends CastableInterface<ConfigurationProcessor> {

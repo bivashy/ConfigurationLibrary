@@ -1,7 +1,7 @@
 package com.ubivashka.configuration;
 
 import com.ubivashka.configuration.holder.VelocityConfigurationHolder;
-import com.ubivashka.configuration.processors.DefaultConfigurationProcessor;
+import com.ubivashka.configuration.processor.DefaultConfigurationProcessor;
 
 import ninja.leaping.configurate.ConfigurationNode;
 

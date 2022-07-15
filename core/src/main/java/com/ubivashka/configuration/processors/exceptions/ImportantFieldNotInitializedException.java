@@ -1,6 +1,6 @@
 package com.ubivashka.configuration.processors.exceptions;
 
-import com.ubivashka.configuration.contexts.ConfigurationFieldContext;
+import com.ubivashka.configuration.context.ConfigurationFieldContext;
 
 public class ImportantFieldNotInitializedException extends Exception {
 

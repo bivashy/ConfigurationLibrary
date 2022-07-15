@@ -1,19 +1,19 @@
-package com.ubivashka.configuration.resolvers.defaults;
+package com.ubivashka.configuration.resolver.field.basic;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.annotations.SectionObject;
-import com.ubivashka.configuration.annotations.SingleObject;
-import com.ubivashka.configuration.contexts.ConfigurationFieldContext;
-import com.ubivashka.configuration.contexts.ConfigurationFieldResolverContext;
+import com.ubivashka.configuration.annotation.SectionObject;
+import com.ubivashka.configuration.annotation.SingleObject;
+import com.ubivashka.configuration.context.ConfigurationFieldContext;
+import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
 import com.ubivashka.configuration.contexts.defaults.ConfigurationFieldResolverContextWrapper;
 import com.ubivashka.configuration.contexts.defaults.SingleObjectResolverContext;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
-import com.ubivashka.configuration.processors.DefaultConfigurationProcessor;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolverFactory;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.configuration.processor.DefaultConfigurationProcessor;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
 import com.ubivashka.configuration.util.ClassMap;
 
 public class ConfigurationCollectionFieldFactory implements ConfigurationFieldResolverFactory {

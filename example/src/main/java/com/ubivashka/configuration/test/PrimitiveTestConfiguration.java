@@ -1,8 +1,9 @@
+
 package com.ubivashka.configuration.test;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.ubivashka.configuration.annotations.ConfigField;
+import com.ubivashka.configuration.annotation.ConfigField;
 
 public class PrimitiveTestConfiguration {
 
@@ -14,7 +15,11 @@ public class PrimitiveTestConfiguration {
 	private double doubleNumber;
 	@ConfigField("double")
 	private Double wrappedDoubleNumber;
-
+	@ConfigField("float")
+	private float floatNumber;
+	@ConfigField("float")
+	private Float wrappedFloatNumber;
+	
 	public PrimitiveTestConfiguration(ConfigurationSection section) {
 		TestMain.getConfigurationProcessor().resolve(section, this);
 		System.out.println(toString());
@@ -22,7 +27,7 @@ public class PrimitiveTestConfiguration {
 
 	@Override
 	public String toString() {
-		return "PrimitiveTestConfiguration [number=" + number + ", wrappedNumber=" + wrappedNumber + ", doubleNumber="
-				+ doubleNumber + ", wrappedDoubleNumber=" + wrappedDoubleNumber + "]";
+		return "PrimitiveTestConfiguration [number=" + number + ", wrappedNumber=" + wrappedNumber + ", doubleNumber=" + doubleNumber + ", wrappedDoubleNumber="
+				+ wrappedDoubleNumber + ", floatNumber=" + floatNumber + ", wrappedFloatNumber=" + wrappedFloatNumber + "]";
 	}
 }

@@ -1,13 +1,13 @@
-package com.ubivashka.configuration.resolvers.defaults;
+package com.ubivashka.configuration.resolver.field.basic;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ubivashka.configuration.annotations.ConverterIgnore;
-import com.ubivashka.configuration.contexts.ConfigurationFieldResolverContext;
-import com.ubivashka.configuration.converters.Converter;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
+import com.ubivashka.configuration.annotation.ConverterIgnore;
+import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
+import com.ubivashka.configuration.converter.Converter;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 
 public class DefaultConfigurationFieldResolver<T> implements ConfigurationFieldResolver<T> {
 

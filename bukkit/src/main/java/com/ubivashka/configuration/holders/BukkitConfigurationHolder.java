@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+
 public class BukkitConfigurationHolder implements ConfigurationSectionHolder {
     private final ConfigurationSection section;
 

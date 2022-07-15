@@ -1,11 +1,11 @@
-package com.ubivashka.configuration.resolvers.defaults;
+package com.ubivashka.configuration.resolver.field.basic;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.annotations.SingleObject;
-import com.ubivashka.configuration.contexts.ConfigurationFieldContext;
+import com.ubivashka.configuration.annotation.SingleObject;
+import com.ubivashka.configuration.context.ConfigurationFieldContext;
 import com.ubivashka.configuration.contexts.defaults.SingleObjectResolverContext;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolverFactory;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
 import com.ubivashka.configuration.util.ClassMap;
 
 public class DefaultConfigurationFieldFactory implements ConfigurationFieldResolverFactory {

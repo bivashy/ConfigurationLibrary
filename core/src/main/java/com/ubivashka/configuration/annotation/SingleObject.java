@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.annotations;
+package com.ubivashka.configuration.annotation;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -6,7 +6,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
+import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 
 /**
  * Mark field that resolves from single object, for example string. Also can be
@@ -41,6 +41,7 @@ import com.ubivashka.configuration.resolvers.ConfigurationFieldResolver;
  * </pre>
  *
  */
+@Deprecated
 @Retention(RUNTIME)
 @Target(ElementType.FIELD)
 public @interface SingleObject {

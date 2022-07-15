@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.contexts;
+package com.ubivashka.configuration.context;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -6,9 +6,9 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.annotations.ConfigField;
+import com.ubivashka.configuration.annotation.ConfigField;
 import com.ubivashka.configuration.contexts.defaults.DefaultConfigurationFieldContext;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.util.PrimitiveWrapper;
 import com.ubivashka.configuration.util.ReflectionUtil;
 import com.ubivashka.function.CastableInterface;

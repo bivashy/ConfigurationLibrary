@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.holders;
+package com.ubivashka.configuration.holder;
 
 import java.util.Collections;
 import java.util.List;

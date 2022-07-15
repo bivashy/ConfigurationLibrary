@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.annotations;
+package com.ubivashka.configuration.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

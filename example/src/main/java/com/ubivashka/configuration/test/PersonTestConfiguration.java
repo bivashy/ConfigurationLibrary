@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.ubivashka.configuration.annotations.ConfigField;
-import com.ubivashka.configuration.annotations.SectionObject;
-import com.ubivashka.configuration.annotations.SingleObject;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.annotation.ConfigField;
+import com.ubivashka.configuration.annotation.SectionObject;
+import com.ubivashka.configuration.annotation.SingleObject;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
 public class PersonTestConfiguration {
 	@SectionObject

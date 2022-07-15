@@ -3,9 +3,9 @@ package com.ubivashka.configuration.contexts.defaults;
 import java.lang.reflect.Field;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.annotations.ConfigField;
-import com.ubivashka.configuration.contexts.ConfigurationFieldContext;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.annotation.ConfigField;
+import com.ubivashka.configuration.context.ConfigurationFieldContext;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
 public class DefaultConfigurationFieldContext implements ConfigurationFieldContext {
 

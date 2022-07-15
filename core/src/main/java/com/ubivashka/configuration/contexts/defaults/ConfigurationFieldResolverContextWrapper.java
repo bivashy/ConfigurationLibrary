@@ -3,8 +3,8 @@ package com.ubivashka.configuration.contexts.defaults;
 import java.lang.annotation.Annotation;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.contexts.ConfigurationFieldResolverContext;
-import com.ubivashka.configuration.holders.ConfigurationSectionHolder;
+import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
 public abstract class ConfigurationFieldResolverContextWrapper implements ConfigurationFieldResolverContext {
 
