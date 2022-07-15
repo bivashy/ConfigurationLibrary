@@ -1,7 +1,7 @@
-package com.ubivashka.configuration.wrapper;
+package com.ubivashka.configuration.holder.factory;
 
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
-public interface ConfigurationHolderWrapper<T> {
+public interface ConfigurationSectionHolderFactory<T> {
 	ConfigurationSectionHolder wrap(T object);
 }

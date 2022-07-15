@@ -4,9 +4,9 @@ import java.util.Map;
 
 import com.ubivashka.configuration.converter.Converter;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.configuration.holder.factory.ConfigurationSectionHolderFactory;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
-import com.ubivashka.configuration.wrapper.ConfigurationHolderWrapper;
 import com.ubivashka.function.CastableInterface;
 
 public interface ConfigurationProcessor extends CastableInterface<ConfigurationProcessor> {
@@ -32,7 +32,7 @@ public interface ConfigurationProcessor extends CastableInterface<ConfigurationP
 	 * @param wrapper Wrapper for the type
 	 * @return this {@link ConfigurationProcessor}
 	 */
-	<T> ConfigurationProcessor registerConfigurationHolderWrapper(Class<T> type, ConfigurationHolderWrapper<T> wrapper);
+	<T> ConfigurationProcessor registerConfigurationHolderWrapper(Class<T> type, ConfigurationSectionHolderFactory<T> wrapper);
 
 	/**
 	 * Register field resolver for specific class

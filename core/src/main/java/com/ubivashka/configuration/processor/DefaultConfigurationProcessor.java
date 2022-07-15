@@ -18,6 +18,7 @@ import com.ubivashka.configuration.context.ConfigurationFieldContext;
 import com.ubivashka.configuration.contexts.defaults.SingleObjectResolverContext;
 import com.ubivashka.configuration.converter.Converter;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.configuration.holder.factory.ConfigurationSectionHolderFactory;
 import com.ubivashka.configuration.processors.exceptions.CannotParseException;
 import com.ubivashka.configuration.processors.exceptions.ImportantFieldNotInitializedException;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
@@ -28,7 +29,6 @@ import com.ubivashka.configuration.resolver.field.basic.ConfigurationHolderResol
 import com.ubivashka.configuration.resolver.field.basic.DefaultConfigurationFieldFactory;
 import com.ubivashka.configuration.util.ClassMap;
 import com.ubivashka.configuration.util.PrimitiveWrapper;
-import com.ubivashka.configuration.wrapper.ConfigurationHolderWrapper;
 
 public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 	public static final ConfigurationFieldResolverFactory FIELD_RESOLVER_FACTORY = new DefaultConfigurationFieldFactory();
@@ -38,7 +38,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 
 	private final ClassMap<ConfigurationFieldResolverFactory> configurationFieldFactories = new ClassMap<>();
 	private final ClassMap<ConfigurationFieldResolver<?>> configurationFieldResolvers = new ClassMap<>();
-	private final ClassMap<ConfigurationHolderWrapper<?>> configurationHolderWrappers = new ClassMap<>();
+	private final ClassMap<ConfigurationSectionHolderFactory<?>> configurationHolderWrappers = new ClassMap<>();
 	private final ClassMap<Converter<?>> converters = new ClassMap<>();
 
 	public DefaultConfigurationProcessor() {
@@ -84,7 +84,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 	@Override
 	public <T> ConfigurationProcessor resolve(T sectionHolder, Object... fieldHolders) {
 		@SuppressWarnings("unchecked")
-		ConfigurationHolderWrapper<T> wrapper = (ConfigurationHolderWrapper<T>) configurationHolderWrappers
+		ConfigurationSectionHolderFactory<T> wrapper = (ConfigurationSectionHolderFactory<T>) configurationHolderWrappers
 				.getAssignable(PrimitiveWrapper.unwrapClass(sectionHolder.getClass()));
 		if (wrapper == null)
 			throw new IllegalArgumentException("Cannot unwrap " + sectionHolder.getClass().getSimpleName() + " to ConfigurationSectionHolder");
@@ -99,7 +99,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
 	}
 
 	@Override
-	public <T> ConfigurationProcessor registerConfigurationHolderWrapper(Class<T> type, ConfigurationHolderWrapper<T> wrapper) {
+	public <T> ConfigurationProcessor registerConfigurationHolderWrapper(Class<T> type, ConfigurationSectionHolderFactory<T> wrapper) {
 		configurationHolderWrappers.putWrapped(type, wrapper);
 		return this;
 	}
