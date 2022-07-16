@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.processors.exceptions;
+package com.ubivashka.configuration.processor.exception;
 
 import com.ubivashka.configuration.context.ConfigurationFieldContext;
 

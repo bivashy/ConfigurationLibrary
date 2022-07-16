@@ -1,9 +1,9 @@
-package com.ubivashka.configuration.resolver.field.basic;
+package com.ubivashka.configuration.resolver.field.base;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.configuration.annotation.SingleObject;
 import com.ubivashka.configuration.context.ConfigurationFieldContext;
-import com.ubivashka.configuration.contexts.defaults.SingleObjectResolverContext;
+import com.ubivashka.configuration.context.base.SingleObjectResolverContext;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
 import com.ubivashka.configuration.util.ClassMap;

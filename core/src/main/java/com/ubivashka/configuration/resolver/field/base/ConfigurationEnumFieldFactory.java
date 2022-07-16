@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.resolver.field.basic;
+package com.ubivashka.configuration.resolver.field.base;
 
 import java.util.stream.Collectors;
 

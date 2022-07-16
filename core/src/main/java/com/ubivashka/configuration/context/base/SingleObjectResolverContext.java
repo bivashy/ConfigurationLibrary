@@ -1,4 +1,4 @@
-package com.ubivashka.configuration.contexts.defaults;
+package com.ubivashka.configuration.context.base;
 
 import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
 
