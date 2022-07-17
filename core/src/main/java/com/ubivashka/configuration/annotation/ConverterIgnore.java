@@ -15,6 +15,7 @@ import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
  *	Works only for objects that uses default {@link ConfigurationFieldResolver}
  * </pre>
  */
+@Deprecated
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConverterIgnore {

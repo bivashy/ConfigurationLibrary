@@ -3,52 +3,40 @@ package com.ubivashka.configuration.context;
 import java.lang.annotation.Annotation;
 
 import com.ubivashka.configuration.ConfigurationProcessor;
-import com.ubivashka.configuration.annotation.ConfigField;
-import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
-import com.ubivashka.function.CastableInterface;
+import com.ubivashka.function.Castable;
 
-public interface ConfigurationFieldResolverContext extends CastableInterface<ConfigurationFieldResolverContext> {
+public interface ConfigurationFieldResolverContext extends Castable<ConfigurationFieldResolverContext>, ConfigurationContext {
 
-	/**
-	 * Returns processor of field
-	 * 
-	 * @return processor that controls processing of this field
-	 */
-	ConfigurationProcessor processor();
+    /**
+     * Returns processor of field
+     *
+     * @return processor that controls processing of this field
+     */
+    ConfigurationProcessor processor();
 
-	/**
-	 * @return configuration. Current configuration holder
-	 */
-	ConfigurationSectionHolder configuration();
+    /**
+     * Returns unwrapped field`s class. It only unwraps primitives, or list generic
+     *
+     * @return value that need to be resolved
+     */
+    Class<?> valueType();
 
-	/**
-	 * Returns path that assigned with {@link ConfigField} annotation
-	 * 
-	 * @return path in configuration
-	 */
-	String path();
+    Class<?> getGeneric(int index);
 
-	/**
-	 * Returns unwrapped field`s class. It only unwraps primitives, or list generic
-	 * 
-	 * @return value that need to be resolved
-	 */
-	Class<?> valueType();
+    /**
+     * Returns object that holds field
+     *
+     * @return field holder object
+     */
+    Object fieldHolder();
 
-	Class<?> getGeneric(int index);
+    Annotation getAnnotation(Class<? extends Annotation> annotationType);
 
-	/**
-	 * Returns object that holds field
-	 * 
-	 * @return field holder object
-	 */
-	Object fieldHolder();
-
-	/**
-	 * Checks if field has specific annotation
-	 * 
-	 * @param annotationType - Annotation that need to check
-	 * @return result of annotation check
-	 */
-	boolean hasAnnotation(Class<? extends Annotation> annotationType);
+    /**
+     * Checks if field has specific annotation
+     *
+     * @param annotationType - Annotation that need to check
+     * @return result of annotation check
+     */
+    boolean hasAnnotation(Class<? extends Annotation> annotationType);
 }

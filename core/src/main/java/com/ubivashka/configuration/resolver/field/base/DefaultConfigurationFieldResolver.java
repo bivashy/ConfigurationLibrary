@@ -11,27 +11,27 @@ import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 
 public class DefaultConfigurationFieldResolver<T> implements ConfigurationFieldResolver<T> {
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public T resolveField(ConfigurationFieldResolverContext resolverContext) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public T resolveField(ConfigurationFieldResolverContext resolverContext) {
 
-		if (resolverContext.configuration().isCollection(resolverContext.path())
-				&& Collection.class.isAssignableFrom(resolverContext.valueType())
-				&& !resolverContext.hasAnnotation(ConverterIgnore.class)) {
+        if (resolverContext.isList()
+                && Collection.class.isAssignableFrom(resolverContext.valueType())
+                && !resolverContext.hasAnnotation(ConverterIgnore.class)) {
 
-			List<Object> objectList = resolverContext.configuration().getList(resolverContext.path());
+            List<Object> objectList = resolverContext.configuration().getList(resolverContext.path());
 
-			return (T) objectList.stream().map(object -> {
+            return (T) objectList.stream().map(object -> {
 
-				if (!resolverContext.getGeneric(0).isAssignableFrom(object.getClass()))
-					return resolverContext.processor().getConverters()
-							.getOrDefault(resolverContext.valueType(), Converter.identity()).convert(object);
-				return object;
+                if (!resolverContext.getGeneric(0).isAssignableFrom(object.getClass()))
+                    return resolverContext.processor().getConverters()
+                            .getOrDefault(resolverContext.valueType(), Converter.identity()).convert(object);
+                return object;
 
-			}).collect(Collectors.toList());
+            }).collect(Collectors.toList());
 
-		}
+        }
 
-		return (T) resolverContext.configuration().get(resolverContext.path());
-	}
+        return (T) resolverContext.getConfigurationObject();
+    }
 }

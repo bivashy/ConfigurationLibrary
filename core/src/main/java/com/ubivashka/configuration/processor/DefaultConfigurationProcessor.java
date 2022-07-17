@@ -1,10 +1,10 @@
 package com.ubivashka.configuration.processor;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -14,8 +14,8 @@ import com.ubivashka.configuration.ConfigurationHolder;
 import com.ubivashka.configuration.ConfigurationProcessor;
 import com.ubivashka.configuration.annotation.ConfigField;
 import com.ubivashka.configuration.annotation.ImportantField;
-import com.ubivashka.configuration.context.ConfigurationFieldContext;
-import com.ubivashka.configuration.context.base.SingleObjectResolverContext;
+import com.ubivashka.configuration.context.ConfigurationContext;
+import com.ubivashka.configuration.context.ConfigurationFieldFactoryContext;
 import com.ubivashka.configuration.converter.Converter;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.holder.factory.ConfigurationSectionHolderFactory;
@@ -56,10 +56,15 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
             throw new IllegalArgumentException(new CannotParseException());
         });
 
-        registerFieldResolver(Pattern.class, (context) -> Pattern.compile(context.as(SingleObjectResolverContext.class).getConfigurationValue().toString()));
+        registerFieldResolver(Pattern.class, (context) -> Pattern.compile(context.configuration().getString(context.path())));
+        registerFieldResolver(String.class, ConfigurationContext::getString);
+        registerFieldResolver(Boolean.class, ConfigurationContext::getBoolean);
+        registerFieldResolver(Float.class, ConfigurationContext::getFloat);
+        registerFieldResolver(Double.class, ConfigurationContext::getDouble);
+        registerFieldResolver(Integer.class, ConfigurationContext::getInt);
+        registerFieldResolver(Long.class, ConfigurationContext::getLong);
 
         registerFieldResolverFactory(Enum.class, ENUM_FIELD_RESOLVER_FACTORY);
-        registerFieldResolverFactory(List.class, COLLECTION_FIELD_RESOLVER_FACTORY);
         registerFieldResolverFactory(Collection.class, COLLECTION_FIELD_RESOLVER_FACTORY);
         registerFieldResolverFactory(ConfigurationHolder.class, CONFIGURATION_HOLDER_RESOLVER_FACTORY);
     }
@@ -70,10 +75,10 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
             Class<?> objectClass = object.getClass();
             Set<Field> fields = deepFields(objectClass).stream().filter(field -> field.isAnnotationPresent(ConfigField.class)).collect(Collectors.toSet());
             fields.forEach(field -> {
-                boolean isAccessible = field.canAccess(this);
+                boolean isAccessible = field.isAccessible();
                 field.setAccessible(true);
-                ConfigurationFieldContext configurationFieldContext = ConfigurationFieldContext.of(this, sectionHolder, object, field);
-                resolveField(configurationFieldContext);
+                ConfigurationFieldFactoryContext configurationFieldFactoryContext = ConfigurationFieldFactoryContext.of(this, sectionHolder, object, field);
+                resolveField(configurationFieldFactoryContext);
 
                 field.setAccessible(isAccessible);
             });
@@ -140,26 +145,26 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
         return fields;
     }
 
-    private void resolveField(ConfigurationFieldContext configurationFieldContext) {
-        Class<?> key = configurationFieldContext.valueType();
+    private void resolveField(ConfigurationFieldFactoryContext configurationFieldFactoryContext) {
+        Class<?> key = configurationFieldFactoryContext.valueType();
         ConfigurationFieldResolverFactory factory = configurationFieldFactories.getOrDefault(key,
                 configurationFieldFactories.getAssignable(key, FIELD_RESOLVER_FACTORY));
 
         try {
-            ConfigurationFieldResolver<?> resolver = factory.createResolver(configurationFieldContext);
+            ConfigurationFieldResolver<?> resolver = factory.createResolver(configurationFieldFactoryContext);
 
-            Field field = configurationFieldContext.field();
-            Object resolvedObject = resolver.resolveField(configurationFieldContext.asResolverContext());
+            Field field = configurationFieldFactoryContext.field();
+            Object resolvedObject = resolver.resolveField(configurationFieldFactoryContext.asResolverContext());
 
             if (resolvedObject == null) {
                 if (field.isAnnotationPresent(ImportantField.class))
-                    throw new ImportantFieldNotInitializedException(configurationFieldContext);
+                    throw new ImportantFieldNotInitializedException(configurationFieldFactoryContext);
                 return;
             }
-            field.set(configurationFieldContext.fieldHolder(), resolvedObject);
+            field.set(configurationFieldFactoryContext.fieldHolder(), resolvedObject);
         } catch(Throwable e) {
-            System.err.println("Error occurred on path " + configurationFieldContext.path() + " with field type "
-                    + configurationFieldContext.field().getType().getSimpleName());
+            System.err.println("Error occurred on path " + Arrays.toString(configurationFieldFactoryContext.path()) + " with field type "
+                    + configurationFieldFactoryContext.field().getType().getSimpleName()+" in "+configurationFieldFactoryContext.fieldHolder().getClass().getSimpleName());
             e.printStackTrace();
         }
     }

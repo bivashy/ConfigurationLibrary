@@ -4,110 +4,92 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.google.common.reflect.TypeToken;
-import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.function.MemoizingSupplier;
 
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.Types;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 public class VelocityConfigurationHolder implements ConfigurationSectionHolder {
-	private final ConfigurationNode configurationNode;
+    private final ConfigurationNode configurationNode;
+    private final Supplier<VelocityConfigurationHolder> lazyParent;
+    private final String key;
 
-	public VelocityConfigurationHolder(ConfigurationNode configurationNode) {
-		Objects.requireNonNull(configurationNode);
-		this.configurationNode = configurationNode;
-	}
+    public VelocityConfigurationHolder(ConfigurationNode configurationNode) {
+        Objects.requireNonNull(configurationNode);
+        this.configurationNode = configurationNode;
+        this.lazyParent = MemoizingSupplier.memoize(() -> {
+            if (configurationNode.getParent() != null)
+                return new VelocityConfigurationHolder(configurationNode.getParent());
+            return null;
+        });
+        this.key = configurationNode.getKey().toString();
+    }
 
-	@Override
-	public Object get(String key) {
-		return configurationNode.getNode(key).getValue();
-	}
+    @Override
+    public Object get(String... key) {
+        return getNode(key).getValue();
+    }
 
-	@Override
-	public String getString(String key) {
-		return configurationNode.getNode(key).getString();
-	}
+    @Override
+    public ConfigurationSectionHolder section(String... key) {
+        return new VelocityConfigurationHolder(getNode(key));
+    }
 
-	@Override
-	public Boolean getBoolean(String key) {
-		return configurationNode.getNode(key).getBoolean();
-	}
+    @Override
+    public <L> List<L> getList(String... key) {
+        try {
+            return (List<L>) getNode(key).getList(TypeToken.of(Object.class));
+        } catch(ObjectMappingException e) {
+            return new ArrayList<>();
+        }
+    }
 
-	@Override
-	public Integer getInteger(String key) {
-		return configurationNode.getNode(key).getInt();
-	}
+    @Override
+    public boolean contains(String... key) {
+        return getNode(key).isVirtual();
+    }
 
-	@Override
-	public Double getDouble(String key) {
-		return configurationNode.getNode(key).getDouble();
-	}
+    @Override
+    public boolean isSection(String... key) {
+        ConfigurationNode node = getNode(key);
+        return node.isMap() || !node.getChildrenMap().isEmpty();
+    }
 
-	@Override
-	public ConfigurationSectionHolder getSection(String key) {
-		return new VelocityConfigurationHolder(configurationNode.getNode(key));
-	}
+    @Override
+    public boolean isList(String... key) {
+        return getNode(key).isList();
+    }
 
-	@Override
-	public <L> List<L> getList(String key) {
-		try {
-			return (List<L>) configurationNode.getNode(key).getList(TypeToken.of(Object.class));
-		} catch (ObjectMappingException e) {
-			return new ArrayList<>();
-		}
-	}
+    @Override
+    public Set<String> keys() {
+        return configurationNode.getChildrenMap().keySet().stream().map(String::valueOf)
+                .collect(Collectors.toSet());
+    }
 
-	@Override
-	public boolean contains(String key) {
-		return getKeys().stream().anyMatch(configurationKey -> configurationKey.equals(key));
-	}
+    @Override
+    public ConfigurationSectionHolder parent() {
+        return lazyParent.get();
+    }
 
-	@Override
-	public boolean isConfigurationSection(String key) {
-		return configurationNode.isList();
-	}
+    @Override
+    public String key() {
+        return key;
+    }
 
-	@Override
-	public boolean isCollection(String key) {
-		return configurationNode.isList();
-	}
+    @Override
+    public Object getOriginalHolder() {
+        return getConfigurationNode();
+    }
 
-	@Override
-	public boolean isString(String key) {
-		return Types.asString(configurationNode.getValue()) != null;
-	}
+    public ConfigurationNode getConfigurationNode() {
+        return configurationNode;
+    }
 
-	@Override
-	public boolean isBoolean(String key) {
-		return Types.asBoolean(configurationNode.getValue()) != null;
-	}
-
-	@Override
-	public boolean isInteger(String key) {
-		return Types.asInt(configurationNode.getValue()) != null;
-	}
-
-	@Override
-	public boolean isDouble(String key) {
-		return Types.asDouble(configurationNode.getValue()) != null;
-	}
-
-	@Override
-	public Set<String> getKeys() {
-		return configurationNode.getChildrenMap().keySet().stream().map(String::valueOf)
-				.collect(Collectors.toSet());
-	}
-
-	@Override
-	public Object getOriginalHolder() {
-		return getConfigurationNode();
-	}
-
-	public ConfigurationNode getConfigurationNode() {
-		return configurationNode;
-	}
-
+    private ConfigurationNode getNode(String... key) {
+        return configurationNode.getNode((Object[]) key);
+    }
 }

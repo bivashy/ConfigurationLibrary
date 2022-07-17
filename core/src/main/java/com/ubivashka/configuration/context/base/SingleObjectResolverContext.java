@@ -2,6 +2,7 @@ package com.ubivashka.configuration.context.base;
 
 import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
 
+@Deprecated
 public class SingleObjectResolverContext extends ConfigurationFieldResolverContextWrapper {
 	private final Object configurationValue;
 

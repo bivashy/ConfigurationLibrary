@@ -7,9 +7,9 @@ import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.holder.factory.ConfigurationSectionHolderFactory;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
-import com.ubivashka.function.CastableInterface;
+import com.ubivashka.function.Castable;
 
-public interface ConfigurationProcessor extends CastableInterface<ConfigurationProcessor> {
+public interface ConfigurationProcessor extends Castable<ConfigurationProcessor> {
 	/**
 	 * Resolves objects with fields
 	 * 

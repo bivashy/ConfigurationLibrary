@@ -3,106 +3,90 @@ package com.ubivashka.configuration.configurate.holder;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.spongepowered.configurate.ConfigurationNode;
-import org.spongepowered.configurate.serialize.Scalars;
 
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.function.MemoizingSupplier;
 
 public class ConfigurationNodeHolder implements ConfigurationSectionHolder {
-	private final ConfigurationNode configurationNode;
+    private final ConfigurationNode configurationNode;
+    private final String key;
+    private final Supplier<ConfigurationNodeHolder> lazyParent;
 
-	public ConfigurationNodeHolder(ConfigurationNode configurationNode) {
-		Objects.requireNonNull(configurationNode);
-		this.configurationNode = configurationNode;
-	}
+    public ConfigurationNodeHolder(ConfigurationNode configurationNode) {
+        Objects.requireNonNull(configurationNode);
+        this.configurationNode = configurationNode;
+        this.key = configurationNode.key().toString();
+        this.lazyParent = MemoizingSupplier.memoize(() -> {
+            if (configurationNode.parent() != null)
+                return new ConfigurationNodeHolder(configurationNode.parent());
+            return null;
+        });
+    }
 
-	@Override
-	public Object get(String key) {
-		return configurationNode.node(key).raw();
-	}
+    @Override
+    public Object get(String... key) {
+        return getConfigurationNode(key).raw();
+    }
 
-	@Override
-	public String getString(String key) {
-		return configurationNode.node(key).getString();
-	}
+    @Override
+    public ConfigurationSectionHolder section(String... key) {
+        return new ConfigurationNodeHolder(getConfigurationNode(key));
+    }
 
-	@Override
-	public Boolean getBoolean(String key) {
-		return configurationNode.node(key).getBoolean();
-	}
+    @Override
+    public boolean isSection(String... key) {
+        ConfigurationNode node = getConfigurationNode(key);
+        return node.isMap() || !node.childrenMap().isEmpty();
+    }
 
-	@Override
-	public Integer getInteger(String key) {
-		return configurationNode.node(key).getInt();
-	}
+    @Override
+    public boolean isList(String... key) {
+        return getConfigurationNode(key).isList();
+    }
 
-	@Override
-	public Double getDouble(String key) {
-		return configurationNode.node(key).getDouble();
-	}
+    @Override
+    public boolean contains(String... key) {
+        return !getConfigurationNode(key).virtual();
+    }
 
-	@Override
-	public ConfigurationSectionHolder getSection(String key) {
-		return new ConfigurationNodeHolder(configurationNode.node(key));
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public <L> List<L> getList(String... key) {
+        return (List<L>) getConfigurationNode(key).childrenList().stream().map(ConfigurationNode::raw)
+                .collect(Collectors.toList());
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <L> List<L> getList(String key) {
-		return (List<L>) configurationNode.node(key).childrenList().stream().map(ConfigurationNode::raw)
-				.collect(Collectors.toList());
-	}
 
-	@Override
-	public boolean contains(String key) {
-		return getKeys().stream().anyMatch(configurationKey -> configurationKey.equals(key));
-	}
+    @Override
+    public Set<String> keys() {
+        return configurationNode.childrenMap().keySet().stream().map(String::valueOf)
+                .collect(Collectors.toSet());
+    }
 
-	@Override
-	public boolean isConfigurationSection(String key) {
-		return !configurationNode.node(key).childrenMap().isEmpty();
-	}
+    @Override
+    public ConfigurationSectionHolder parent() {
+        return lazyParent.get();
+    }
 
-	@Override
-	public boolean isCollection(String key) {
-		return configurationNode.isList();
-	}
+    @Override
+    public String key() {
+        return key;
+    }
 
-	@Override
-	public boolean isString(String key) {
-		return Scalars.STRING.tryDeserialize(configurationNode.node(key).rawScalar()) != null;
-	}
+    @Override
+    public Object getOriginalHolder() {
+        return getConfigurationNode();
+    }
 
-	@Override
-	public boolean isBoolean(String key) {
-		return Scalars.BOOLEAN.tryDeserialize(configurationNode.node(key).rawScalar()) != null;
-	}
+    public ConfigurationNode getConfigurationNode() {
+        return configurationNode;
+    }
 
-	@Override
-	public boolean isInteger(String key) {
-		return Scalars.INTEGER.tryDeserialize(configurationNode.node(key).rawScalar()) != null;
-	}
-
-	@Override
-	public boolean isDouble(String key) {
-		return Scalars.DOUBLE.tryDeserialize(configurationNode.node(key).rawScalar()) != null;
-	}
-
-	@Override
-	public Set<String> getKeys() {
-		return configurationNode.childrenMap().keySet().stream().map(String::valueOf)
-				.collect(Collectors.toSet());
-	}
-
-	@Override
-	public Object getOriginalHolder() {
-		return getConfigurationNode();
-	}
-
-	public ConfigurationNode getConfigurationNode() {
-		return configurationNode;
-	}
-
+    private ConfigurationNode getConfigurationNode(String... key) {
+        return configurationNode.node((Object[]) key);
+    }
 }

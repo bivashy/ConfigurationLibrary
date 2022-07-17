@@ -3,17 +3,15 @@ package com.ubivashka.configuration.resolver.field.base;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import com.ubivashka.configuration.context.ConfigurationFieldContext;
+import com.ubivashka.configuration.context.ConfigurationFieldFactoryContext;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
 
 public class ConfigurationHolderResolverFactory implements ConfigurationFieldResolverFactory {
 	@Override
-	public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldContext factoryContext) {
-		if (factoryContext.isValueCollection())
-			throw new UnsupportedOperationException("Collection unsupported for ConfigurationHolder");
-		ConfigurationSectionHolder sectionHolder = getSectionHolder(factoryContext.configuration(), factoryContext.path());
+	public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldFactoryContext factoryContext) {
+		ConfigurationSectionHolder sectionHolder = factoryContext.getSection();
 		Class<?> fieldClass = factoryContext.valueType();
 		try {
 			for (Constructor<?> constructor : fieldClass.getDeclaredConstructors()) {
@@ -41,14 +39,6 @@ public class ConfigurationHolderResolverFactory implements ConfigurationFieldRes
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	private ConfigurationSectionHolder getSectionHolder(ConfigurationSectionHolder root, String path) {
-		String[] fullPath = path.split("\\."); // Rewrite this, for example use String[] in @ConfigField annotation in the future.
-		ConfigurationSectionHolder sectionHolder = root;
-		for (String pathPiece : fullPath)
-			sectionHolder = sectionHolder.getSection(pathPiece);
-		return sectionHolder;
+		return (context) -> null;
 	}
 }

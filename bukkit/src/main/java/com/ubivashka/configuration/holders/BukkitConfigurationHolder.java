@@ -3,96 +3,75 @@ package com.ubivashka.configuration.holders;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
+import com.ubivashka.function.MemoizingSupplier;
 
 public class BukkitConfigurationHolder implements ConfigurationSectionHolder {
     private final ConfigurationSection section;
+    private final String key;
+    private final Supplier<BukkitConfigurationHolder> lazyParent;
 
     public BukkitConfigurationHolder(ConfigurationSection section) {
         Objects.requireNonNull(section);
         this.section = section;
+        this.key = section.getName();
+        this.lazyParent = MemoizingSupplier.memoize(() -> {
+            if (section.getParent() != null)
+                return new BukkitConfigurationHolder(section.getParent());
+            return null;
+        });
     }
 
     @Override
-    public Object get(String key) {
-        return section.get(key);
+    public Object get(String... keys) {
+        return getConfigurationElement(ConfigurationSection::get, keys);
     }
 
     @Override
-    public String getString(String key) {
-        return section.getString(key);
-    }
-
-    @Override
-    public Boolean getBoolean(String key) {
-        return section.getBoolean(key);
-    }
-
-    @Override
-    public Integer getInteger(String key) {
-        return section.getInt(key);
-    }
-
-    @Override
-    public Double getDouble(String key) {
-        return section.getDouble(key);
-    }
-
-    @Override
-    public ConfigurationSectionHolder getSection(String key) {
-        ConfigurationSection configurationSection = section.getConfigurationSection(key);
-        if (configurationSection != null)
-            return new BukkitConfigurationHolder(configurationSection);
-        return ConfigurationSectionHolder.empty();
+    public ConfigurationSectionHolder section(String... keys) {
+        return new BukkitConfigurationHolder(getConfigurationElement(ConfigurationSection::getConfigurationSection, keys));
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <L> List<L> getList(String key) {
-        return (List<L>) section.getList(key);
+    public <L> List<L> getList(String... keys) {
+        return (List<L>) getConfigurationElement(ConfigurationSection::getList, keys);
     }
 
     @Override
-    public boolean contains(String key) {
-        return section.contains(key);
+    public boolean contains(String... keys) {
+        return getConfigurationElement(ConfigurationSection::contains, keys);
     }
 
     @Override
-    public boolean isConfigurationSection(String key) {
-        return section.isConfigurationSection(key);
+    public boolean isSection(String... keys) {
+        return getConfigurationElement(ConfigurationSection::isConfigurationSection, keys);
     }
 
     @Override
-    public boolean isCollection(String key) {
-        return section.isList(key);
+    public boolean isList(String... keys) {
+        return getConfigurationElement(ConfigurationSection::isList, keys);
     }
 
     @Override
-    public boolean isString(String key) {
-        return section.isString(key);
-    }
-
-    @Override
-    public boolean isBoolean(String key) {
-        return section.isBoolean(key);
-    }
-
-    @Override
-    public boolean isInteger(String key) {
-        return section.isInt(key);
-    }
-
-    @Override
-    public boolean isDouble(String key) {
-        return section.isDouble(key);
-    }
-
-    @Override
-    public Set<String> getKeys() {
+    public Set<String> keys() {
         return section.getKeys(false);
+    }
+
+    @Override
+    public ConfigurationSectionHolder parent() {
+        return lazyParent.get();
+    }
+
+    @Override
+    public String key() {
+        return key;
     }
 
     @Override
@@ -104,4 +83,13 @@ public class BukkitConfigurationHolder implements ConfigurationSectionHolder {
         return section;
     }
 
+    private <T> T getConfigurationElement(BiFunction<ConfigurationSection, String, T> lastElementFunction, String... keys) {
+        ConfigurationSection currentSection = section;
+        for (int i = 0; i < keys.length - 1; i++) { // Iterate all elements except last element
+            String key = keys[i];
+            ConfigurationSection findedConfiguration = currentSection.getConfigurationSection(key);
+            currentSection = findedConfiguration == null ? new MemoryConfiguration() : findedConfiguration;
+        }
+        return lastElementFunction.apply(currentSection, keys[keys.length - 1]);
+    }
 }

@@ -4,23 +4,18 @@ import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 
+import com.ubivashka.configuration.ConfigurationHolder;
 import com.ubivashka.configuration.annotation.ConfigField;
-import com.ubivashka.configuration.annotation.SectionObject;
-import com.ubivashka.configuration.annotation.SingleObject;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 
 public class PersonTestConfiguration {
-	@SectionObject
 	@ConfigField("section-test")
 	private List<Person> personsList;
-	@SectionObject
 	@ConfigField("section-test.hi")
 	private Person artem;
 
-	@SingleObject
 	@ConfigField("section-test.many")
 	private List<PersonId> idObjects;
-	@SingleObject
 	@ConfigField("section-test.single")
 	private PersonId idObject;
 
@@ -31,8 +26,7 @@ public class PersonTestConfiguration {
 
 	@Override
 	public String toString() {
-		return "PersonTestConfiguration [personsList=" + personsList + ", artem=" + artem + ", idObjects=" + idObjects
-				+ ", idObject=" + idObject + "]";
+		return "PersonTestConfiguration [personsList=" + personsList + ", artem=" + artem + ", idObjects=" + idObjects + ", idObject=" + idObject + "]";
 	}
 
 	public static class PersonId {
@@ -49,7 +43,7 @@ public class PersonTestConfiguration {
 
 	}
 
-	public static class Person {
+	public static class Person implements ConfigurationHolder {
 		private final String name;
 		private final String subName;
 		private int age;
@@ -61,7 +55,8 @@ public class PersonTestConfiguration {
 		}
 
 		public Person(ConfigurationSectionHolder personSection) {
-			this(personSection.getString("name"), personSection.getString("subname"), personSection.getInteger("age"));
+			this(personSection.getString("name"), personSection.getString("subname"), personSection.getInt("age"));
+			System.out.println(personSection.keys());
 		}
 
 		@Override
