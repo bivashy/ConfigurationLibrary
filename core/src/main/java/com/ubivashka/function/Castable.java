@@ -1,6 +1,6 @@
 package com.ubivashka.function;
 
-public interface CastableInterface<T> {
+public interface Castable<T> {
 
 	/**
 	 * Safely cast current object to another object.
