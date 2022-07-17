@@ -8,6 +8,6 @@ import com.ubivashka.configuration.processor.DefaultConfigurationProcessor;
 public class BukkitConfigurationProcessor extends DefaultConfigurationProcessor {
 	public BukkitConfigurationProcessor() {
 		registerConfigurationHolderWrapper(ConfigurationSection.class,
-				section -> new BukkitConfigurationHolder(section));
+				BukkitConfigurationHolder::new);
 	}
 }

@@ -14,10 +14,8 @@ public class ReflectionUtil {
 		List<Class<?>> list = new ArrayList<>();
 
 		Type[] typeParameters = parameterizedType.getActualTypeArguments();
-		for (int j = 0; j < typeParameters.length; j++) {
-			Type parameter = typeParameters[j];
+		for (Type parameter : typeParameters)
 			list.add(typeToClass(parameter));
-		}
 		return list;
 	}
 

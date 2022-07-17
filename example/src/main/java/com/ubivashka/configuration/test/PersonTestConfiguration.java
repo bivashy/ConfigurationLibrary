@@ -56,7 +56,6 @@ public class PersonTestConfiguration {
 
 		public Person(ConfigurationSectionHolder personSection) {
 			this(personSection.getString("name"), personSection.getString("subname"), personSection.getInt("age"));
-			System.out.println(personSection.keys());
 		}
 
 		@Override

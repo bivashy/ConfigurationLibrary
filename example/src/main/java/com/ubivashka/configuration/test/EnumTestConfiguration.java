@@ -14,7 +14,7 @@ public class EnumTestConfiguration {
 
 	public EnumTestConfiguration(ConfigurationSection section) {
 		TestMain.getConfigurationProcessor().resolve(section, this);
-		enumList.forEach(testEnum -> testEnum.name());
+		enumList.forEach(Enum::name);
 		System.out.println(toString());
 	}
 

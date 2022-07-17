@@ -7,6 +7,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 
 public class VelocityConfigurationProcessor extends DefaultConfigurationProcessor {
 	public VelocityConfigurationProcessor() {
-		registerConfigurationHolderWrapper(ConfigurationNode.class, node -> new VelocityConfigurationHolder(node));
+		registerConfigurationHolderWrapper(ConfigurationNode.class, VelocityConfigurationHolder::new);
 	}
 }
