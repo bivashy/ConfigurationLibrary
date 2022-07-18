@@ -19,7 +19,7 @@ public class BooleanResolver implements ScalarObjectResolver<Boolean> {
         if (TRUE_VALUES.contains(stringValue))
             return true;
         if (FALSE_VALUES.contains(stringValue))
-            return true;
+            return false;
         throw new CannotResolveTypeException(object, "boolean");
     }
 
