@@ -74,7 +74,7 @@ public interface ConfigurationFieldFactoryContext extends Castable<Configuration
      * @return field type
      */
     default Class<?> valueType() {
-        return PrimitiveWrapper.unwrapClass(field().getType());
+        return PrimitiveWrapper.tryWrap(field().getType());
     }
 
     default boolean isValueCollection() {

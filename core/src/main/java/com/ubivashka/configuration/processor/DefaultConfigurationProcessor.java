@@ -73,7 +73,7 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
     public <T> ConfigurationProcessor resolve(T sectionHolder, Object... fieldHolders) {
         @SuppressWarnings("unchecked")
         ConfigurationSectionHolderFactory<T> wrapper = (ConfigurationSectionHolderFactory<T>) configurationHolderWrappers
-                .getAssignable(PrimitiveWrapper.unwrapClass(sectionHolder.getClass()));
+                .getAssignable(PrimitiveWrapper.tryWrap(sectionHolder.getClass()));
         if (wrapper == null)
             throw new IllegalArgumentException("Cannot unwrap " + sectionHolder.getClass().getSimpleName() + " to ConfigurationSectionHolder");
         resolve(wrapper.wrap(sectionHolder), fieldHolders);

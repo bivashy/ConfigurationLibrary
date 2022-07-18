@@ -38,21 +38,23 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
             configurationObjects = Collections.singletonList(context.getConfigurationObject());
         }
 
-        if (factory != null && !factory.equals(this) && factory.canInteract(getClass())) {
-            return resolverContext -> configurationObjects.stream().map(object -> getFactoryContext(context, object)).map(
-                    factoryContext -> factory.createResolver(factoryContext).resolveField(getResolverContext(factoryContext, factoryContext.getConfigurationObject()))).collect(Collectors.toList());
+        if (factory != null && !factory.equals(this)) {
+            if (factory.canInteract(getClass()))
+                return resolverContext -> configurationObjects.stream().map(object -> getFactoryContext(context, object)).map(
+                        factoryContext -> factory.createResolver(factoryContext).resolveField(getResolverContext(factoryContext, factoryContext.getConfigurationObject()))).collect(
+                        Collectors.toList());
+            return factory.createResolver(context);
         }
 
         ClassMap<ConfigurationFieldResolver<?>> fieldResolvers = new ClassMap<>(processor.getFieldResolvers());
         ConfigurationFieldResolver<?> findedResolver = fieldResolvers.getOrDefault(context.getGeneric(0), null);
 
-        if (findedResolver != null && findedResolver.canInteract(getClass()))
-            return resolverContext ->
-                    configurationObjects.stream().map(object -> getResolverContext(context, object)).map(findedResolver::resolveField).collect(Collectors.toList());
-
-        if (findedResolver != null)
+        if (findedResolver != null) {
+            if (findedResolver.canInteract(getClass()))
+                return resolverContext ->
+                        configurationObjects.stream().map(object -> getResolverContext(context, object)).map(findedResolver::resolveField).collect(Collectors.toList());
             return findedResolver;
-
+        }
         return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
     }
 

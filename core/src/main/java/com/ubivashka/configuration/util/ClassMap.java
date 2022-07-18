@@ -20,7 +20,7 @@ public class ClassMap<V> extends HashMap<Class<?>, V> {
      * @param value that will be added to the map
      */
     public void putWrapped(Class<?> clazz, V value) {
-        Class<?> wrappedClass = PrimitiveWrapper.unwrapClass(clazz);
+        Class<?> wrappedClass = PrimitiveWrapper.tryWrap(clazz);
         if (containsKey(wrappedClass))
             return;
         put(wrappedClass, value);

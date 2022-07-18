@@ -20,7 +20,7 @@ public class NumberResolvers {
         if (value instanceof Number) {
             final double d = ((Number) value).doubleValue();
             final int exponent = Math.getExponent(d);
-            if (d != 0d && Double.isFinite(d) && exponent >= Float.MIN_EXPONENT && exponent <= Float.MAX_EXPONENT)
+            if (d != 0d && Double.isFinite(d) && exponent < Float.MIN_EXPONENT || exponent > Float.MAX_EXPONENT)
                 throw new ResolveException("Value " + d + " cannot be represented as a float without significant loss of precision");
             return (float) d;
         } else if (value instanceof CharSequence) {
