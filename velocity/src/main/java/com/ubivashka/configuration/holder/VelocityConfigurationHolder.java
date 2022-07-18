@@ -16,7 +16,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 public class VelocityConfigurationHolder implements ConfigurationSectionHolder {
     private final ConfigurationNode configurationNode;
     private final Supplier<VelocityConfigurationHolder> lazyParent;
-    private final String key;
+    private String key;
 
     public VelocityConfigurationHolder(ConfigurationNode configurationNode) {
         Objects.requireNonNull(configurationNode);
@@ -26,7 +26,8 @@ public class VelocityConfigurationHolder implements ConfigurationSectionHolder {
                 return new VelocityConfigurationHolder(configurationNode.getParent());
             return null;
         });
-        this.key = configurationNode.getKey().toString();
+        if (configurationNode.getKey() != null)
+            this.key = configurationNode.getKey().toString();
     }
 
     @Override

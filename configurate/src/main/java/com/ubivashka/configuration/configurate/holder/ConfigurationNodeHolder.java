@@ -13,13 +13,14 @@ import com.ubivashka.function.MemoizingSupplier;
 
 public class ConfigurationNodeHolder implements ConfigurationSectionHolder {
     private final ConfigurationNode configurationNode;
-    private final String key;
     private final Supplier<ConfigurationNodeHolder> lazyParent;
+    private String key;
 
     public ConfigurationNodeHolder(ConfigurationNode configurationNode) {
         Objects.requireNonNull(configurationNode);
         this.configurationNode = configurationNode;
-        this.key = configurationNode.key().toString();
+        if (configurationNode.key() != null)
+            this.key = configurationNode.key().toString();
         this.lazyParent = MemoizingSupplier.memoize(() -> {
             if (configurationNode.parent() != null)
                 return new ConfigurationNodeHolder(configurationNode.parent());
