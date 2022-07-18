@@ -13,7 +13,7 @@ public class ClassMap<V> extends HashMap<Class<?>, V> {
     }
 
     /**
-     * Puts value to the map without overriding old value if key already exists
+     * Puts value to the map, will override old value if exists.
      *
      * @param clazz that will be put to the map. Primitive types will be wrapped.
      *              For example: {@link int.class} will be {@link Integer}
@@ -21,8 +21,6 @@ public class ClassMap<V> extends HashMap<Class<?>, V> {
      */
     public void putWrapped(Class<?> clazz, V value) {
         Class<?> wrappedClass = PrimitiveWrapper.tryWrap(clazz);
-        if (containsKey(wrappedClass))
-            return;
         put(wrappedClass, value);
     }
 
