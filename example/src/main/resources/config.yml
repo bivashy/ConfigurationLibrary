@@ -1,13 +1,15 @@
 primitive-test:
   string: test
-  int: 1
-  double: 1.2
+  int: 1.0
+  double: 1
+  float: 12421.2
 list-test:
   string-list:
     - 't4weyhe4yh'
     - 'tw3tg'
     - 'hsaerhseh'
     - hi
+    - 1
     - '1'
   double-list:
     - 1.0
@@ -15,8 +17,13 @@ list-test:
     - 712.5
     - 152.1
     - -1261.3
+    - 1
+    - 1.2
+    - '1.45'
   integer-list:
     - 1
+    - "5"
+    - '4'
     - 6
     - 712
     - 152

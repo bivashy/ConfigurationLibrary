@@ -21,7 +21,7 @@ public class PersonTestConfiguration {
 
 	public PersonTestConfiguration(ConfigurationSection section) {
 		TestMain.getConfigurationProcessor().resolve(section, this);
-		System.out.println(toString());
+		System.out.println(this);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class PersonTestConfiguration {
 		private Person(String name, String subName, int age) {
 			this.name = name;
 			this.subName = subName;
-			this.age = age;
+			this.age = age;	
 		}
 
 		public Person(ConfigurationSectionHolder personSection) {
