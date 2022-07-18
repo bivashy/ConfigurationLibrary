@@ -9,36 +9,31 @@ import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
 
 public class ConfigurationHolderResolverFactory implements ConfigurationFieldResolverFactory {
-	@Override
-	public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldFactoryContext factoryContext) {
-		ConfigurationSectionHolder sectionHolder = factoryContext.getSection();
-		Class<?> fieldClass = factoryContext.valueType();
-		try {
-			for (Constructor<?> constructor : fieldClass.getDeclaredConstructors()) {
-				if (constructor.getParameterCount() != 1)
-					continue;
-				if (ConfigurationSectionHolder.class.isAssignableFrom(constructor.getParameterTypes()[0]))
-					return (context) -> {
-						try {
-							return constructor.newInstance(sectionHolder);
-						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-							e.printStackTrace();
-						}
-						return null;
-					};
-				if (constructor.getParameterTypes()[0].isAssignableFrom(factoryContext.configuration().getOriginalHolder().getClass()))
-					return (context) -> {
-						try {
-							return constructor.newInstance(sectionHolder.getOriginalHolder());
-						} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-							e.printStackTrace();
-						}
-						return null;
-					};
-			}
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		}
-		return (context) -> null;
-	}
+    @Override
+    public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldFactoryContext factoryContext) {
+        ConfigurationSectionHolder sectionHolder = factoryContext.getSection();
+        Class<?> fieldClass = factoryContext.valueType();
+        try {
+            for (Constructor<?> constructor : fieldClass.getDeclaredConstructors()) {
+                if (constructor.getParameterCount() != 1)
+                    continue;
+                if (ConfigurationSectionHolder.class.isAssignableFrom(constructor.getParameterTypes()[0]))
+                    return (context) -> createNewInstance(constructor, sectionHolder);
+                if (constructor.getParameterTypes()[0].isAssignableFrom(factoryContext.configuration().getOriginalHolder().getClass()))
+                    return (context) -> createNewInstance(constructor, sectionHolder.getOriginalHolder());
+            }
+        } catch(SecurityException e) {
+            e.printStackTrace();
+        }
+        return (context) -> null;
+    }
+
+    private Object createNewInstance(Constructor<?> constructor, Object... arguments) {
+        try {
+            return constructor.newInstance(arguments);
+        } catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

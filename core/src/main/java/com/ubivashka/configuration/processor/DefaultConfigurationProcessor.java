@@ -16,10 +16,8 @@ import com.ubivashka.configuration.annotation.ConfigField;
 import com.ubivashka.configuration.annotation.ImportantField;
 import com.ubivashka.configuration.context.ConfigurationContext;
 import com.ubivashka.configuration.context.ConfigurationFieldFactoryContext;
-import com.ubivashka.configuration.converter.Converter;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.holder.factory.ConfigurationSectionHolderFactory;
-import com.ubivashka.configuration.processor.exception.CannotParseException;
 import com.ubivashka.configuration.processor.exception.ImportantFieldNotInitializedException;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
@@ -39,24 +37,9 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
     private final ClassMap<ConfigurationFieldResolverFactory> configurationFieldFactories = new ClassMap<>();
     private final ClassMap<ConfigurationFieldResolver<?>> configurationFieldResolvers = new ClassMap<>();
     private final ClassMap<ConfigurationSectionHolderFactory<?>> configurationHolderWrappers = new ClassMap<>();
-    private final ClassMap<Converter<?>> converters = new ClassMap<>();
 
     public DefaultConfigurationProcessor() {
-        registerConverter(String.class, String::valueOf);
-        registerConverter(Number.class, (object) -> {
-            if (object instanceof String)
-                return Double.parseDouble(String.valueOf(object));
-            if (object instanceof Number)
-                return (Number) object;
-            throw new IllegalArgumentException(new CannotParseException());
-        });
-        registerConverter(Pattern.class, (object) -> {
-            if (object instanceof String)
-                return Pattern.compile((String) object);
-            throw new IllegalArgumentException(new CannotParseException());
-        });
-
-        registerFieldResolver(Pattern.class, (context) -> Pattern.compile(context.configuration().getString(context.path())));
+        registerFieldResolver(Pattern.class, (context) -> Pattern.compile(context.getString()));
         registerFieldResolver(String.class, ConfigurationContext::getString);
         registerFieldResolver(Boolean.class, ConfigurationContext::getBoolean);
         registerFieldResolver(Float.class, ConfigurationContext::getFloat);
@@ -116,12 +99,6 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
     }
 
     @Override
-    public <T> ConfigurationProcessor registerConverter(Class<T> type, Converter<T> converter) {
-        converters.putWrapped(type, converter);
-        return this;
-    }
-
-    @Override
     public Map<Class<?>, ConfigurationFieldResolver<?>> getFieldResolvers() {
         return Collections.unmodifiableMap(configurationFieldResolvers);
     }
@@ -129,11 +106,6 @@ public class DefaultConfigurationProcessor implements ConfigurationProcessor {
     @Override
     public Map<Class<?>, ConfigurationFieldResolverFactory> getFieldResolverFactories() {
         return Collections.unmodifiableMap(configurationFieldFactories);
-    }
-
-    @Override
-    public Map<Class<?>, Converter<?>> getConverters() {
-        return Collections.unmodifiableMap(converters);
     }
 
     protected Set<Field> deepFields(Class<?> currentClass) {

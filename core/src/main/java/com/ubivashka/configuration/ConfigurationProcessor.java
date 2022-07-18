@@ -2,7 +2,6 @@ package com.ubivashka.configuration;
 
 import java.util.Map;
 
-import com.ubivashka.configuration.converter.Converter;
 import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.holder.factory.ConfigurationSectionHolderFactory;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
@@ -56,16 +55,6 @@ public interface ConfigurationProcessor extends Castable<ConfigurationProcessor>
 			ConfigurationFieldResolverFactory fieldResolverFactory);
 
 	/**
-	 * Register converter that will be used in list
-	 * 
-	 * @param type.      Type that need to convert
-	 * @param converter. Converter that converts object (for example string or
-	 *                   integer) to type
-	 * @return this {@link ConfigurationProcessor}
-	 */
-	<T> ConfigurationProcessor registerConverter(Class<T> type, Converter<T> converter);
-
-	/**
 	 * Returns fields resolvers map. Map is unmodifiable, and can be used for
 	 * factories
 	 * 
@@ -80,13 +69,4 @@ public interface ConfigurationProcessor extends Castable<ConfigurationProcessor>
 	 * @return unmodifiable field resolver factories map
 	 */
 	Map<Class<?>, ConfigurationFieldResolverFactory> getFieldResolverFactories();
-
-	/**
-	 * Returns converters, usually used for converting list values. For example
-	 * converting Integer to string
-	 * 
-	 * @return Object converters
-	 */
-	Map<Class<?>, Converter<?>> getConverters();
-
 }

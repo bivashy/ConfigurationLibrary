@@ -23,12 +23,11 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
             return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
         ConfigurationProcessor processor = context.processor();
 
-        ClassMap<ConfigurationFieldResolver<?>> fieldResolvers = new ClassMap<>(processor.getFieldResolvers());
-        ClassMap<ConfigurationFieldResolverFactory> configurationFieldFactories = new ClassMap<>(
+        ClassMap<ConfigurationFieldResolverFactory> fieldFactories = new ClassMap<>(
                 processor.getFieldResolverFactories());
 
-        ConfigurationFieldResolverFactory factory = configurationFieldFactories.getOrDefault(context.getGeneric(0),
-                configurationFieldFactories.getAssignable(context.getGeneric(0), null));
+        ConfigurationFieldResolverFactory factory = fieldFactories.getOrDefault(context.getGeneric(0),
+                fieldFactories.getAssignable(context.getGeneric(0), null));
 
         List<Object> configurationObjects;
         if (context.isList()) {
@@ -39,14 +38,15 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
             configurationObjects = Collections.singletonList(context.getConfigurationObject());
         }
 
-        if (factory != null && !factory.equals(this) && factory.shouldResolveCollection()) {
+        if (factory != null && !factory.equals(this) && factory.canInteract(getClass())) {
             return resolverContext -> configurationObjects.stream().map(object -> getFactoryContext(context, object)).map(
                     factoryContext -> factory.createResolver(factoryContext).resolveField(getResolverContext(factoryContext, factoryContext.getConfigurationObject()))).collect(Collectors.toList());
         }
 
+        ClassMap<ConfigurationFieldResolver<?>> fieldResolvers = new ClassMap<>(processor.getFieldResolvers());
         ConfigurationFieldResolver<?> findedResolver = fieldResolvers.getOrDefault(context.getGeneric(0), null);
 
-        if (findedResolver != null && findedResolver.shouldResolveCollection())
+        if (findedResolver != null && findedResolver.canInteract(getClass()))
             return resolverContext ->
                     configurationObjects.stream().map(object -> getResolverContext(context, object)).map(findedResolver::resolveField).collect(Collectors.toList());
 
