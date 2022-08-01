@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ubivashka</groupId>
-		<artifactId>ConfigurationLibrary-main</artifactId>
-		<version>3.0.1</version>
+		<groupId>com.ubivashka.ConfigurationLibrary</groupId>
+		<artifactId>main</artifactId>
+		<version>3.0.3</version>
 	</parent>
 	<artifactId>configurate</artifactId>
 
@@ -17,7 +17,7 @@
 	<dependencies>
 		<!-- Core -->
 		<dependency>
-			<groupId>com.ubivashka</groupId>
+			<groupId>com.ubivashka.ConfigurationLibrary</groupId>
 			<artifactId>core</artifactId>
 			<version>${core.version}</version>
 			<scope>provided</scope>
