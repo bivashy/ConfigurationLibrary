@@ -10,6 +10,7 @@ import com.ubivashka.configuration.context.ConfigurationFieldFactoryContext;
 import com.ubivashka.configuration.context.ConfigurationFieldResolverContext;
 import com.ubivashka.configuration.context.base.ConfigurationFieldFactoryContextWrapper;
 import com.ubivashka.configuration.context.base.ConfigurationFieldResolverContextWrapper;
+import com.ubivashka.configuration.holder.ConfigurationSectionHolder;
 import com.ubivashka.configuration.processor.DefaultConfigurationProcessor;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolver;
 import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFactory;
@@ -21,28 +22,31 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
     public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldFactoryContext context) {
         if (!context.isValueCollection())
             return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
+        Class<?> collectionType = context.getGeneric(0);
+
         ConfigurationProcessor processor = context.processor();
 
-        ClassMap<ConfigurationFieldResolverFactory> fieldFactories = new ClassMap<>(
-                processor.getFieldResolverFactories());
+        ClassMap<ConfigurationFieldResolverFactory> fieldFactories = new ClassMap<>(processor.getFieldResolverFactories());
 
-        ConfigurationFieldResolverFactory factory = fieldFactories.getOrDefault(context.getGeneric(0),
-                fieldFactories.getAssignable(context.getGeneric(0), null));
+        ConfigurationFieldResolverFactory factory = fieldFactories.getOrDefault(collectionType, fieldFactories.getAssignable(collectionType, null));
 
         List<Object> configurationObjects;
         if (context.isList()) {
             configurationObjects = context.getList();
-        } else if (ConfigurationHolder.class.isAssignableFrom(context.valueType())) {
-            configurationObjects = context.keys().stream().filter(context.configuration()::isSection).map(key -> context.configuration().section(key)).collect(Collectors.toList());
+        } else if (ConfigurationHolder.class.isAssignableFrom(collectionType)) {
+            ConfigurationSectionHolder sectionHolder = context.getSection();
+            configurationObjects = sectionHolder.keys().stream().filter(sectionHolder::isSection).map(sectionHolder::section).collect(Collectors.toList());
         } else {
             configurationObjects = Collections.singletonList(context.getConfigurationObject());
         }
 
         if (factory != null && !factory.equals(this)) {
             if (factory.canInteract(getClass()))
-                return resolverContext -> configurationObjects.stream().map(object -> getFactoryContext(context, object)).map(
-                        factoryContext -> factory.createResolver(factoryContext).resolveField(getResolverContext(factoryContext, factoryContext.getConfigurationObject()))).collect(
-                        Collectors.toList());
+                return resolverContext -> configurationObjects.stream()
+                        .map(object -> getFactoryContext(context, object))
+                        .map(factoryContext -> factory.createResolver(factoryContext)
+                                .resolveField(getResolverContext(factoryContext, factoryContext.getConfigurationObject())))
+                        .collect(Collectors.toList());
             return factory.createResolver(context);
         }
 
@@ -51,8 +55,10 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
 
         if (findedResolver != null) {
             if (findedResolver.canInteract(getClass()))
-                return resolverContext ->
-                        configurationObjects.stream().map(object -> getResolverContext(context, object)).map(findedResolver::resolveField).collect(Collectors.toList());
+                return resolverContext -> configurationObjects.stream()
+                        .map(object -> getResolverContext(context, object))
+                        .map(findedResolver::resolveField)
+                        .collect(Collectors.toList());
             return findedResolver;
         }
         return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
