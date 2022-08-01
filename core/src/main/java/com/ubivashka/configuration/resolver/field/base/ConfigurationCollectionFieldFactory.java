@@ -22,6 +22,8 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
     public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldFactoryContext context) {
         if (!context.isValueCollection())
             return DefaultConfigurationProcessor.FIELD_RESOLVER_FACTORY.createResolver(context);
+        if (context.getConfigurationObject() == null)
+            return resolverContext -> null;
         Class<?> collectionType = context.getGeneric(0);
 
         ConfigurationProcessor processor = context.processor();
@@ -33,7 +35,7 @@ public class ConfigurationCollectionFieldFactory implements ConfigurationFieldRe
         List<Object> configurationObjects;
         if (context.isList()) {
             configurationObjects = context.getList();
-        } else if (ConfigurationHolder.class.isAssignableFrom(collectionType)) {
+        } else if (ConfigurationHolder.class.isAssignableFrom(collectionType) && context.isSection()) {
             ConfigurationSectionHolder sectionHolder = context.getSection();
             configurationObjects = sectionHolder.keys().stream().filter(sectionHolder::isSection).map(sectionHolder::section).collect(Collectors.toList());
         } else {

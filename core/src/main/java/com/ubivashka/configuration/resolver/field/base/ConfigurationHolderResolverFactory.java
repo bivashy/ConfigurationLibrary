@@ -11,6 +11,8 @@ import com.ubivashka.configuration.resolver.field.ConfigurationFieldResolverFact
 public class ConfigurationHolderResolverFactory implements ConfigurationFieldResolverFactory {
     @Override
     public ConfigurationFieldResolver<?> createResolver(ConfigurationFieldFactoryContext factoryContext) {
+        if (!factoryContext.isSection())
+            return (context) -> null;
         ConfigurationSectionHolder sectionHolder = factoryContext.getSection();
         Class<?> fieldClass = factoryContext.valueType();
         try {
