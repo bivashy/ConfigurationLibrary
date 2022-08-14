@@ -45,7 +45,7 @@ public abstract class ConfigurationFieldResolverContextWrapper implements Config
     }
 
     @Override
-    public Annotation getAnnotation(Class<? extends Annotation> annotationType) {
+    public <T extends Annotation> T getAnnotation(Class<T> annotationType) {
         return wrapped.getAnnotation(annotationType);
     }
 

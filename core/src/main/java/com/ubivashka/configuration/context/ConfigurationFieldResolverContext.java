@@ -30,7 +30,7 @@ public interface ConfigurationFieldResolverContext extends Castable<Configuratio
      */
     Object fieldHolder();
 
-    Annotation getAnnotation(Class<? extends Annotation> annotationType);
+    <T extends Annotation> T getAnnotation(Class<T> annotationType);
 
     /**
      * Checks if field has specific annotation

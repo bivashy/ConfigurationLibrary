@@ -40,7 +40,7 @@ public interface ConfigurationFieldFactoryContext extends Castable<Configuration
      */
     Object fieldHolder();
 
-    default Annotation getAnnotation(Class<? extends Annotation> annotationType) {
+    default <T extends Annotation> T getAnnotation(Class<T> annotationType) {
         return field().getAnnotation(annotationType);
     }
 
@@ -129,7 +129,7 @@ public interface ConfigurationFieldFactoryContext extends Castable<Configuration
             }
 
             @Override
-            public Annotation getAnnotation(Class<? extends Annotation> annotationType) {
+            public <T extends Annotation> T getAnnotation(Class<T> annotationType) {
                 return ConfigurationFieldFactoryContext.this.getAnnotation(annotationType);
             }
 
