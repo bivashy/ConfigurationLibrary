@@ -1,7 +1,7 @@
 # ConfigurationLibrary
 
 ![Java](https://img.shields.io/badge/Java-8%2B-brightgreen)
-[![Jitpack version](https://jitpack.io/v/U61vashka/ConfigurationLibrary.svg)](https://jitpack.io/#U61vashka/ConfigurationLibrary)
+[![Jitpack version](https://jitpack.io/v/bivashy/ConfigurationLibrary.svg)](https://jitpack.io/#U61vashka/ConfigurationLibrary)
 
 ### Load configuration files using annotations.
 
