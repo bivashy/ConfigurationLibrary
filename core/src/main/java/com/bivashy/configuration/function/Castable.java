@@ -1,4 +1,4 @@
-package com.bivashy.function;
+package com.bivashy.configuration.function;
 
 public interface Castable<T> {
 

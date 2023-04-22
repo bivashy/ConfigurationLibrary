@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import com.bivashy.configuration.resolver.scalar.ScalarObjectResolver;
-import com.bivashy.function.Castable;
+import com.bivashy.configuration.function.Castable;
 
 public interface ConfigurationSectionHolder extends Castable<ConfigurationSectionHolder> {
     /**

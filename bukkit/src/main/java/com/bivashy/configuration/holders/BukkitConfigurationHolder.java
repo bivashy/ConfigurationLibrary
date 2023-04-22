@@ -10,7 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 
 import com.bivashy.configuration.holder.ConfigurationSectionHolder;
-import com.bivashy.function.MemoizingSupplier;
+import com.bivashy.configuration.function.MemoizingSupplier;
 
 public class BukkitConfigurationHolder implements ConfigurationSectionHolder {
     private final ConfigurationSection section;

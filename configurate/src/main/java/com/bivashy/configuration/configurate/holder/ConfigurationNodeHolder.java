@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.spongepowered.configurate.ConfigurationNode;
 
 import com.bivashy.configuration.holder.ConfigurationSectionHolder;
-import com.bivashy.function.MemoizingSupplier;
+import com.bivashy.configuration.function.MemoizingSupplier;
 
 public class ConfigurationNodeHolder implements ConfigurationSectionHolder {
     private final ConfigurationNode configurationNode;

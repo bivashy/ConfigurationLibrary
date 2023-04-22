@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.google.common.reflect.TypeToken;
-import com.bivashy.function.MemoizingSupplier;
+import com.bivashy.configuration.function.MemoizingSupplier;
 
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

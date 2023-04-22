@@ -10,7 +10,7 @@ import com.bivashy.configuration.ConfigurationProcessor;
 import com.bivashy.configuration.holder.ConfigurationSectionHolder;
 import com.bivashy.configuration.util.PrimitiveWrapper;
 import com.bivashy.configuration.util.ReflectionUtil;
-import com.bivashy.function.Castable;
+import com.bivashy.configuration.function.Castable;
 
 public interface ConfigurationFieldFactoryContext extends Castable<ConfigurationFieldFactoryContext>, ConfigurationContext {
     /**

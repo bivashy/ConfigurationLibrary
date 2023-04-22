@@ -6,7 +6,7 @@ import com.bivashy.configuration.holder.ConfigurationSectionHolder;
 import com.bivashy.configuration.holder.factory.ConfigurationSectionHolderFactory;
 import com.bivashy.configuration.resolver.field.ConfigurationFieldResolver;
 import com.bivashy.configuration.resolver.field.ConfigurationFieldResolverFactory;
-import com.bivashy.function.Castable;
+import com.bivashy.configuration.function.Castable;
 
 public interface ConfigurationProcessor extends Castable<ConfigurationProcessor> {
 	/**

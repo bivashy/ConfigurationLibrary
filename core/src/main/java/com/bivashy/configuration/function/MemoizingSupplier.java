@@ -1,4 +1,4 @@
-package com.bivashy.function;
+package com.bivashy.configuration.function;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -3,7 +3,7 @@ package com.bivashy.configuration.context;
 import java.lang.annotation.Annotation;
 
 import com.bivashy.configuration.ConfigurationProcessor;
-import com.bivashy.function.Castable;
+import com.bivashy.configuration.function.Castable;
 
 public interface ConfigurationFieldResolverContext extends Castable<ConfigurationFieldResolverContext>, ConfigurationContext {
 
