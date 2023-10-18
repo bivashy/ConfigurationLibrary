@@ -1,3 +1,5 @@
+# Will not be worked on. Alternatives: https://github.com/SpongePowered/Configurate. Addon with interface support: https://github.com/bivashy/ProximateConfigurate 
+
 # ConfigurationLibrary
 
 ![Java](https://img.shields.io/badge/Java-8%2B-brightgreen)
